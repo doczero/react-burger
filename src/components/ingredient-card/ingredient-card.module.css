@@ -1,17 +1,14 @@
-.ingredientListItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    flex: 1 0 auto;
-    position: relative;
-    max-width: 272px;
-}
-
-.ingredientListItem img {
+.ingredientListItemImage {
     max-width: 240px;
 }
 
-.ingredientListItem p {
+.ingredientListItemName {
     text-align: center;
+}
+
+.ingredientListItemPrice {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
 }

@@ -3,10 +3,9 @@ import styles from './burger-constructor.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/button';
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
+import { selectedIngredientsData } from '../../utils/data';
 
-export default class BurgerConstructor extends React.Component {
-
-    render() {
+const BurgerConstructor = () => {
 
         return(
             <>
@@ -24,50 +23,16 @@ export default class BurgerConstructor extends React.Component {
 
                     <div className={`${styles.burgerConstructorInnerItems} pr-2`}>
 
-                        <div className={styles.burgerConstructorItem}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text="Соус традиционный галактический"
-                                price={30}
-                                thumbnail={`https://code.s3.yandex.net/react/code/sauce-03.png`}
-                            />
-                        </div>
-
-                        <div className={styles.burgerConstructorItem}>                  
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text="Мясо бессмертных моллюсков Protostomia"
-                                price={300}
-                                thumbnail={`https://code.s3.yandex.net/react/code/meat-02.png`}
-                            />
-                        </div>
-
-                        <div className={styles.burgerConstructorItem}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text="Плоды Фалленианского дерева"
-                                price={80}
-                                thumbnail={`https://code.s3.yandex.net/react/code/sp_1.png`}
-                            />
-                        </div>
-
-                        <div className={styles.burgerConstructorItem}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text="Хрустящие минеральные кольца"
-                                price={80}
-                                thumbnail={`https://code.s3.yandex.net/react/code/mineral_rings.png`}
-                            />
-                        </div>
-
-                        <div className={styles.burgerConstructorItem}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text="Хрустящие минеральные кольца"
-                                price={80}
-                                thumbnail={`https://code.s3.yandex.net/react/code/mineral_rings.png`}
-                            />
-                        </div>
+                        {selectedIngredientsData.map((item: any, index: any) => (
+                            <div key={index} className={styles.burgerConstructorItem}>
+                                <DragIcon type="primary" />
+                                <ConstructorElement
+                                    text={item.name}
+                                    price={item.price}
+                                    thumbnail={item.image}
+                                />
+                            </div>
+                        ))}
 
                     </div>
 
@@ -85,7 +50,7 @@ export default class BurgerConstructor extends React.Component {
 
                 <div className={styles.burgerConstructorMakeOrder}>
                     <div className={`${styles.burgerConstructorMakeOrderTotal} mr-10 `}>
-                        <p className="text text_type_digits-medium">610</p>
+                        <p className="text text_type_digits-medium">2866</p>
                         <CurrencyIcon type="primary" />
                     </div>
                     <div className={styles.burgerConstructorMakeOrderSubmit}>
@@ -99,5 +64,5 @@ export default class BurgerConstructor extends React.Component {
         )
 
     }
-    
-}
+
+export default BurgerConstructor;

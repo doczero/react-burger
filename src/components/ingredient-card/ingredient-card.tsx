@@ -11,14 +11,14 @@ interface IngredientCardProps {
 
 const IngredientCard = ({id, name, price, image}: IngredientCardProps) => {
         return(
-            <li key={id} className={styles.ingredientListItem}>
-                <img src={image} />
-                <span className="text text_type_digits-default" style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', gap: '4px'}}>
+            <>
+                <img src={image} alt={name} className={styles.ingredientListItemImage} />
+                <span className={`${styles.ingredientListItemPrice} text text_type_digits-default`}>
                     {price}
                     <CurrencyIcon type="primary" />
                 </span>
-                <p className="text text_type_main-default">{name}</p>
-            </li>
+                <p className={`${styles.ingredientListItemName} text text_type_main-default`}>{name}</p>
+            </>
         )
 }
 
