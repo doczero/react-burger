@@ -1,0 +1,32 @@
+.header {
+    background: #1C1C21;
+}
+
+.headerContainer {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', 'Arial', sans-serif;
+}
+
+.headerContainer > * {
+    width: calc(100% / 3);
+    display: flex;
+    align-items: center;
+}
+
+.logoBlock {
+    justify-content: center;
+}
+
+.personalBlock {
+    justify-content: end;
+}
+
+.linksBlock > div, .personalBlock > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
