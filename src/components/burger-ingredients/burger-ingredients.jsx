@@ -4,7 +4,8 @@ import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import Modal from '../modal/modal';
-import { ingredientPropTypes } from "../../utils/propTypes-ingredients";
+import { ingredientType } from "../../utils/types";
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = ( { ingredients } ) => {
 
@@ -93,7 +94,12 @@ const BurgerIngredients = ( { ingredients } ) => {
             </div>
 
             {isModalActive &&
-                <Modal kindOfModal="ingredient" ingredientData={currentIngredient} onClose={() => setModalActive(false)} />
+                <Modal
+                    title={`Детали ингредиента`}
+                    onClose={() => setModalActive(false)}
+                >
+                    <IngredientDetails ingredientData={currentIngredient} />
+                </Modal>
             }
 
         </>
@@ -102,7 +108,7 @@ const BurgerIngredients = ( { ingredients } ) => {
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes),
+    ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 }
 
 export default BurgerIngredients;

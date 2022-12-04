@@ -5,7 +5,8 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components/dist/
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
-import { ingredientPropTypes } from "../../utils/propTypes-ingredients";
+import { ingredientType } from "../../utils/types";
+import OrderDetails from '../order-details/order-details';
 
 const BurgerConstructor = ({ ingredients }) => {
 
@@ -80,7 +81,9 @@ const BurgerConstructor = ({ ingredients }) => {
             </div>
 
             {isModalActive && 
-                <Modal kindOfModal="order" onClose={() => setModalActive(false)} />
+                <Modal onClose={() => setModalActive(false)}>
+                    <OrderDetails />
+                </Modal>
             }
 
         </>
@@ -89,7 +92,7 @@ const BurgerConstructor = ({ ingredients }) => {
 }
 
 BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes),
+    ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 }
 
 export default BurgerConstructor;

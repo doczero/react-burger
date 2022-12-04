@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ingredient-details.module.css';
+import { ingredientType } from '../../utils/types';
 
-const IngredientDetails = ( { name, calories, fat, carbohydrates, proteins, image_large } ) => {
+const IngredientDetails = ( { ingredientData } ) => {
+
+    const { name, calories, fat, carbohydrates, proteins, image_large } = ingredientData;
 
     return (
         <>
@@ -34,12 +37,7 @@ const IngredientDetails = ( { name, calories, fat, carbohydrates, proteins, imag
 }
 
 IngredientDetails.propTypes = {
-    name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    image_large: PropTypes.string.isRequired,
+    ingredientData: PropTypes.shape(ingredientType).isRequired,
 }
 
 export default IngredientDetails;
