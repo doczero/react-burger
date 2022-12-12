@@ -29,7 +29,7 @@ const Modal = ( { onClose, children, title } ) => {
             <ModalOverlay onClose={onClose}>
                 <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
 
-                    <div className={styles.closeModalButton} onClick={() => onClose()} >
+                    <div className={styles.closeModalButton} onClick={onClose} >
                         <CloseIcon type="primary" />
                     </div>
 
