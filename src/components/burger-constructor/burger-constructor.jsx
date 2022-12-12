@@ -6,6 +6,8 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
+import { baseURL } from '../../api/api';
+import { request } from '../../utils/request';
 
 const BurgerConstructor = () => {
 
@@ -21,7 +23,7 @@ const BurgerConstructor = () => {
 
     const handleMakeOrderClick = () => {
 
-        const orderUrl = "https://norma.nomoreparties.space/api/orders";
+        const orderUrl = baseURL + "/orders";
 
         const makeOrder = () => {
 
@@ -30,19 +32,13 @@ const BurgerConstructor = () => {
                 ingredientsInConstructor.push(item._id);
             }
 
-            fetch(orderUrl, {
+            request(orderUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ "ingredients": ingredientsInConstructor })
             })
-              .then((response) => {
-                if(response.ok) {
-                  return response.json();
-                }
-                return Promise.reject(`Ошибка ${response.status}`);
-              })
               .then((responseData) => setOrderNumber(responseData.order.number))
               .catch((error) => {
                 alert("Ошибка при отправке данных: " + error)
