@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from './order-details.module.css';
 import iconOrderAccepted from '../../images/iconOrderAccepted.svg';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-const OrderDetails = ( {orderNumber} ) => {
+const OrderDetails = () => {
+
+    const orderNumber = useSelector(store => store.burgerConstructorReducer.orderNumber);
 
     return (
         <div className={`${styles.orderDetailsContainer} pt-30 pb-30`}>
@@ -15,10 +17,6 @@ const OrderDetails = ( {orderNumber} ) => {
         </div>
     )
 
-}
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number,
 }
 
 export default OrderDetails;

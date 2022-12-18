@@ -1,18 +1,22 @@
-import React, { useState, useContext, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
+import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BurgerIngredients = () => {
 
+    const containerRef = useRef();
     const bunsRef = useRef();
     const saucesRef = useRef();
     const mainRef = useRef();
 
     const [currentTab, setCurrentTab] = useState("Булки");
+
+    const dispatch = useDispatch();
 
     const setCurrent = (event) => {
         let tabToScroll;
@@ -26,17 +30,28 @@ const BurgerIngredients = () => {
             case 'Начинки':
                 tabToScroll = mainRef;
                 break;
+            default:
+                break;
         }
         tabToScroll.current.scrollIntoView( {behavior: "smooth"} );
         setCurrentTab(event);
     }
 
-    const ingredients = useContext(BurgerConstructorContext);
+    const handleScroll = () => {
+        const containerY = containerRef.current.getBoundingClientRect().y;
+        const bunsOffset = Math.abs(bunsRef.current.getBoundingClientRect().y - containerY);
+        const saucesOffset = Math.abs(saucesRef.current.getBoundingClientRect().y - containerY);
+        const mainOffset = Math.abs(mainRef.current.getBoundingClientRect().y - containerY);
+        
+        if(bunsOffset < saucesOffset && bunsOffset < mainOffset) setCurrentTab("Булки");
+        if(saucesOffset < bunsOffset && saucesOffset < mainOffset) setCurrentTab("Соусы");
+        if(mainOffset < bunsOffset && mainOffset < saucesOffset) setCurrentTab("Начинки");
+    }
 
-    const [currentIngredient, setCurrentIngredient] = useState(null);
+    const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
 
     const handleIngredientClick = ( item ) => {
-        setCurrentIngredient(item);
+        dispatch( { type: SET_CURRENT_INGREDIENT, payload: item } );
         setModalActive(true);
     }
 
@@ -45,6 +60,14 @@ const BurgerIngredients = () => {
     const bunArray = useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
     const sauceArray = useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
     const mainArray = useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
+
+    const handleCloseModal = () => {
+        dispatch({
+            type: SET_CURRENT_INGREDIENT,
+            payload: null
+        });
+        setModalActive(false);
+    }
 
     return(
         <>
@@ -62,9 +85,10 @@ const BurgerIngredients = () => {
                     </Tab>
                 </div>
 
-                <div className={styles.ingredientsCardsContainer}>
+                <div className={styles.ingredientsCardsContainer} ref={containerRef} onScroll={handleScroll}>
 
-                    <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
+
+                        <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {bunArray.map((item) => (
@@ -79,7 +103,7 @@ const BurgerIngredients = () => {
                             ))}
                         </ul>
 
-                    <h2 className="text text_type_main-medium" ref={saucesRef}>Соусы</h2>
+                        <h2 className="text text_type_main-medium" ref={saucesRef}>Соусы</h2>
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {sauceArray.map((item) => (
@@ -96,18 +120,18 @@ const BurgerIngredients = () => {
 
                     <h2 className="text text_type_main-medium" ref={mainRef}>Начинки</h2>
 
-                        <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
-                            {mainArray.map((item) => (
-                                <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                    <IngredientCard
-                                        id={item._id}
-                                        name={item.name}
-                                        price={item.price}
-                                        image={item.image}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
+                    <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
+                        {mainArray.map((item) => (
+                            <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
+                                <IngredientCard
+                                    id={item._id}
+                                    name={item.name}
+                                    price={item.price}
+                                    image={item.image}
+                                />
+                            </li>
+                        ))}
+                    </ul>
                 
                 </div>
 
@@ -116,9 +140,9 @@ const BurgerIngredients = () => {
             {isModalActive &&
                 <Modal
                     title={`Детали ингредиента`}
-                    onClose={() => setModalActive(false)}
+                    onClose={handleCloseModal}
                 >
-                    <IngredientDetails ingredientData={currentIngredient} />
+                    <IngredientDetails />
                 </Modal>
             }
 

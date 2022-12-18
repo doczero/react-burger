@@ -18,7 +18,8 @@
     flex-direction: column;
     gap: 16px;
     align-items: flex-end;
-    height: 400px;
+    height: 500px;
+    width: 100%;
     overflow-y: scroll;
 }
 

@@ -1,3 +1,14 @@
+.ingredientListItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1 0 auto;
+    max-width: 272px;
+    cursor: pointer;
+    position: relative;
+}
+
 .ingredientListItemImage {
     max-width: 240px;
 }

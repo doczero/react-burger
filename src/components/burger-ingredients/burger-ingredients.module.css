@@ -15,7 +15,7 @@
 }
 
 .ingredientsCardsContainer {
-    height: 400px;
+    height: 600px;
     overflow-y: scroll;
 }
 
@@ -36,4 +36,5 @@
     flex: 1 0 auto;
     max-width: 272px;
     cursor: pointer;
+    position: relative;
 }
