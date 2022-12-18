@@ -1,13 +1,14 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR, 
         SET_CURRENT_INGREDIENT, 
         SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
-        ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR, CHANGE_INGREDIENTS_ORDER
+        ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR, CHANGE_INGREDIENTS_ORDER, ADD_BUN_TO_CONSTRUCTOR
     } from "./burgerConstructorActions";
 
 const initialState = {
 
     allIngredients: [],
     constructorIngredients: [],
+    constructorBun: null,
     currentIngredient: null,
     orderNumber: null
 
@@ -43,12 +44,17 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             }
         }
 
+        case ADD_BUN_TO_CONSTRUCTOR: {
+            return {
+                ...state,
+                constructorBun: action.payload
+            }
+        }
+
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
-                constructorIngredients: action.payload.type === "bun"
-                    ? [...state.constructorIngredients.filter(item => item.type !== "bun"), action.payload]
-                    : [...state.constructorIngredients, action.payload]
+                constructorIngredients: [...state.constructorIngredients, action.payload]
             }
         }
 
@@ -62,7 +68,8 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         case CLEAR_CONSTRUCTOR: {
             return {
                 ...state,
-                constructorIngredients: []
+                constructorIngredients: [],
+                constructorBun: null
             }
         }
 

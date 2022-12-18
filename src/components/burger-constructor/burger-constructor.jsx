@@ -6,7 +6,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort } from '../../services/burgerConstructorActions';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 
@@ -15,13 +15,14 @@ const BurgerConstructor = () => {
     const [isModalActive, setModalActive] = useState(false);
     const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
     const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
+    const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
     const dispatch = useDispatch();
-    const bun = constructorIngredients.find((item) => item.type === "bun");
 
     const handleMakeOrderClick = () => {
 
-          dispatch(sendOrder(constructorIngredients));
-          setModalActive(true);
+        const orderIngredients = constructorIngredients.concat(bun);
+        dispatch(sendOrder(orderIngredients));
+        setModalActive(true);
 
     }
 
@@ -33,12 +34,10 @@ const BurgerConstructor = () => {
     }
 
     let totalCost = constructorIngredients.reduce( (sum, currentItem) => {
-        if(currentItem.type === "bun") {
-            return sum + (2 * currentItem.price);
-        } else {
-            return sum + currentItem.price;
-        }
+        return sum + currentItem.price;
     }, 0);
+
+    if(bun) totalCost += 2 * bun.price;
 
     const handleCloseModal = () => {
         setModalActive(false);
@@ -48,7 +47,7 @@ const BurgerConstructor = () => {
         accept: "ingredient",
         drop(itemId) {
             const item = allIngredients.find(item => item._id === itemId.id);
-            dispatch(addIngredientToConstructor(item));
+            item.type === "bun" ? dispatch(addBunToConstructor(item)) : dispatch(addIngredientToConstructor(item));
         }
     })
 
@@ -76,9 +75,8 @@ const BurgerConstructor = () => {
                 <div className={`${styles.burgerConstructorInnerItems} pr-2`}>
 
                     {constructorIngredients
-                    .filter(item => item.type !== "bun")
                     .map((item, index) => (
-                        <div key={index} className={styles.burgerConstructorItem}>
+                        <div key={item.constructorId} className={styles.burgerConstructorItem}>
                             <BurgerConstructorElement
                                 ingredient={item}
                                 index={index}

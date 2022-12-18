@@ -6,6 +6,7 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_ERROR = 'GET_INGREDIENTS_ERROR';
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
 export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
+export const ADD_BUN_TO_CONSTRUCTOR = 'ADD_BUN_TO_CONSTRUCTOR';
 export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR';
 export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 export const CHANGE_INGREDIENTS_ORDER = 'CHANGE_INGREDIENTS_ORDER';
@@ -86,6 +87,19 @@ export const addIngredientToConstructor = ( item ) => {
         
         dispatch({
             type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            payload: {...item, constructorId: crypto.randomUUID()}
+        })
+
+    }
+
+}
+
+export const addBunToConstructor = ( item ) => {
+
+    return function(dispatch) {
+        
+        dispatch({
+            type: ADD_BUN_TO_CONSTRUCTOR,
             payload: {...item, constructorId: crypto.randomUUID()}
         })
 
