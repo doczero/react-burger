@@ -1,68 +1,65 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import styles from './burger-constructor.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/button';
-import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
-import { baseURL } from '../../api/api';
-import { request } from '../../utils/request';
+import { useDispatch, useSelector } from 'react-redux';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
+import { useDrop } from 'react-dnd/dist/hooks/useDrop';
+import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 
 const BurgerConstructor = () => {
 
     const [isModalActive, setModalActive] = useState(false);
-    const [constructorBun, setConstructorBun] = useState("60d3b41abdacab0026a733c6");
-    const [orderNumber, setOrderNumber] = useState(null);
-
-    const ingredients = useContext(BurgerConstructorContext);
-
-    const bun = ingredients.find((item) => item._id === constructorBun);
-
-    const mainIngredients = ingredients.filter((item) => item.type !== "bun");
+    const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
+    const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
+    const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
+    const dispatch = useDispatch();
 
     const handleMakeOrderClick = () => {
 
-        const orderUrl = baseURL + "/orders";
-
-        const makeOrder = () => {
-
-            let ingredientsInConstructor = [];
-            for (let item of mainIngredients) {
-                ingredientsInConstructor.push(item._id);
-            }
-
-            request(orderUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "ingredients": ingredientsInConstructor })
-            })
-              .then((responseData) => setOrderNumber(responseData.order.number))
-              .catch((error) => {
-                alert("Ошибка при отправке данных: " + error)
-              });
-
-          }
-      
-          makeOrder();
-          setModalActive(true);
+        const orderIngredients = constructorIngredients.concat(bun);
+        dispatch(sendOrder(orderIngredients));
+        setModalActive(true);
 
     }
 
-    let totalCost = ingredients
-        .filter(currentItem => currentItem.type !== "bun")
-        .reduce(
-        (sum, currentItem) => sum + currentItem.price, 0
-    );
+    const handleRemoveItem = (constructorId) => {
+        dispatch({
+            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+            payload: constructorId
+        })
+    }
+
+    let totalCost = constructorIngredients.reduce( (sum, currentItem) => {
+        return sum + currentItem.price;
+    }, 0);
 
     if(bun) totalCost += 2 * bun.price;
 
+    const handleCloseModal = () => {
+        setModalActive(false);
+    }
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(itemId) {
+            const item = allIngredients.find(item => item._id === itemId.id);
+            item.type === "bun" ? dispatch(addBunToConstructor(item)) : dispatch(addIngredientToConstructor(item));
+        }
+    })
+
+    const moveIngredient = (dragIndex, hoverIndex, constructorIngredients) => {
+
+        dispatch(changeIngredientsSort(dragIndex, hoverIndex, constructorIngredients));
+
+    }
+
     return(
         <>
-            <div className={`${styles.constructorContainer} mt-25 mb-8 `}>
-                
+            <div ref={dropTarget} className={`${styles.constructorContainer} mt-25 mb-8`}>
                 {bun &&
                     <div className="pr-4">
                         <ConstructorElement
@@ -77,15 +74,14 @@ const BurgerConstructor = () => {
 
                 <div className={`${styles.burgerConstructorInnerItems} pr-2`}>
 
-                    {ingredients
-                    .filter(item => item.type !== "bun")
+                    {constructorIngredients
                     .map((item, index) => (
-                        <div key={index} className={styles.burgerConstructorItem}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text={item.name}
-                                price={item.price}
-                                thumbnail={item.image}
+                        <div key={item.constructorId} className={styles.burgerConstructorItem}>
+                            <BurgerConstructorElement
+                                ingredient={item}
+                                index={index}
+                                handleClose={() => handleRemoveItem(item.constructorId)}
+                                moveIngredient={moveIngredient}
                             />
                         </div>
                     ))}
@@ -107,7 +103,7 @@ const BurgerConstructor = () => {
             </div>
 
             <div className={styles.burgerConstructorMakeOrder}>
-                <div className={`${styles.burgerConstructorMakeOrderTotal} mr-10 `}>
+                <div className={`${styles.burgerConstructorMakeOrderTotal} mr-10`}>
                     <p className="text text_type_digits-medium">{totalCost}</p>
                     <CurrencyIcon type="primary" />
                 </div>
@@ -124,8 +120,8 @@ const BurgerConstructor = () => {
             </div>
 
             {isModalActive && 
-                <Modal onClose={() => setModalActive(false)}>
-                    <OrderDetails orderNumber={orderNumber} />
+                <Modal onClose={handleCloseModal}>
+                    <OrderDetails />
                 </Modal>
             }
 

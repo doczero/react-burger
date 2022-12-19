@@ -1,47 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.css'
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { BurgerConstructorContext } from '../../services/burgerConstructorContext';
-import { baseURL } from '../../api/api';
-import { request } from '../../utils/request';
+import { useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/burgerConstructorActions';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
 
-  const [state, setState] = useState({
-    ingredientsData: []
-  })
-
-  const dataUrl = baseURL + "/ingredients";
+  const dispatch = useDispatch();
 
   useEffect(() => {
 
-    const getIngredientsData = () => {
-      request(dataUrl)
-        .then((responseData) => setState ({ ingredientsData: responseData.data }))
-        .catch((error) => {
-          alert("Ошибка при загрузке данных: " + error)
-        });
-    }
-
-    getIngredientsData();
+    dispatch(getIngredients());
 
   }, []);
 
   return (
     <>
       <AppHeader />
-      <BurgerConstructorContext.Provider value={state.ingredientsData}>
-        <main className={styles.main}>
-            <section className={styles.mainSection}>
-              <BurgerIngredients />
-            </section>
-            <section className={styles.mainSection}>   
-                <BurgerConstructor />
-            </section>
-        </main>
-      </BurgerConstructorContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+          <main className={styles.main}>
+              <section className={styles.mainSection}>
+                <BurgerIngredients />
+              </section>
+              <section className={styles.mainSection}>   
+                  <BurgerConstructor />
+              </section>
+          </main>
+        </DndProvider>
     </>
   );
 }
