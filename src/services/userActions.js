@@ -148,8 +148,7 @@ export const forgotPassword = (email) => {
         })
             .then( (responseData) => {
                 dispatch({
-                    type: FORGOT_PASSWORD_SUCCESS,
-                    payload: responseData.data
+                    type: FORGOT_PASSWORD_SUCCESS
                 })
             })
             .catch( (error) => {
@@ -182,8 +181,7 @@ export const resetPassword = (newPassword, resetPasswordCode) => {
         })
             .then( (responseData) => {
                 dispatch({
-                    type: RESET_PASSWORD_SUCCESS,
-                    payload: responseData.data
+                    type: RESET_PASSWORD_SUCCESS
                 })
             })
             .catch( (error) => {
@@ -263,7 +261,7 @@ export const getUser = () => {
 
 }
 
-export const updateUser = () => {
+export const updateUser = (name, email, password) => {
 
     const requestUrl = baseURL + "/auth/user";
 
@@ -278,6 +276,7 @@ export const updateUser = () => {
             headers: {
                 'Authorization': 'Bearer ' + getCookie('accessToken')
             },
+            body: JSON.stringify({ 'name': name, 'email': email, 'password': password })
         })
             .then( (responseData) => {
                 dispatch({

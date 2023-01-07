@@ -11,7 +11,8 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
 const initialState = {
     userName: null,
     userLogin: null,
-    isAuthenticated: false
+    isAuthenticated: false,
+    isResettingPassword: false,
 }
 
 export const userReducer = (state = initialState, action ) => {
@@ -82,6 +83,7 @@ export const userReducer = (state = initialState, action ) => {
         case FORGOT_PASSWORD_SUCCESS: {
             return {
                 ...state,
+                isResettingPassword: true
             }
         }
 
@@ -100,6 +102,7 @@ export const userReducer = (state = initialState, action ) => {
         case RESET_PASSWORD_SUCCESS: {
             return {
                 ...state,
+                isResettingPassword: false,
             }
         }
 
@@ -130,7 +133,7 @@ export const userReducer = (state = initialState, action ) => {
             }
         }
 
-        case REFRESH_TOKEN_SUCCESS: {
+        case REFRESH_TOKEN_REQUEST: {
             return {
                 ...state,
             }
@@ -142,7 +145,7 @@ export const userReducer = (state = initialState, action ) => {
             }
         }
 
-        case REFRESH_TOKEN_SUCCESS: {
+        case REFRESH_TOKEN_ERROR: {
             return {
                 ...state,
             }

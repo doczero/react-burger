@@ -8,7 +8,7 @@ export const IngredientPage = () => {
     const { id } = useParams();
 
     const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
-    const currentIngredient = allIngredients.find(item => item._id = id);
+    const currentIngredient = allIngredients.find(item => item._id === id);
 
     return (
         <div className={`${styles.ingredientDetailsContainer} pb-15`}>

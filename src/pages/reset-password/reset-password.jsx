@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect } from 'react-router-dom';
-import { request } from '../../utils/request';
-import { baseURL } from '../../api/api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPassword } from '../../services/userActions';
 
 export const ResetPasswordPage = () => {
+
+    const dispatch = useDispatch();
 
     const [form, setValue] = useState({
         newPassword: '',
@@ -20,13 +21,7 @@ export const ResetPasswordPage = () => {
     }
 
     const handleResetPasswordRequest = () => {
-        request(baseURL + "/password-reset/reset", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 'newPassword': form.newPassword, 'resetPasswordCode': form.resetPasswordCode })
-        });
+        dispatch(resetPassword(form.newPassword, form.resetPasswordCode));
     }
 
     return (

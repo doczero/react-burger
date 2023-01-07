@@ -2,36 +2,50 @@ import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-
 import React, { useEffect, useState } from 'react';
 import styles from './profile.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, getUser } from '../../services/userActions';
+import { logout, getUser, updateUser } from '../../services/userActions';
 import { Link } from 'react-router-dom';
 
 export const ProfilePage = () => {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
+
+    const { userName, userLogin } = useSelector(store => store.userReducer);
+    
     const handleLogoutClick = (e) => {
         e.preventDefault();
         dispatch(logout());
     }
 
     const [form, setValue] = useState({
-        name: '',
-        email: '',
+        name: userName,
+        email: userLogin,
         password: '',
-    })
-
-    useEffect(() => {
-
-        dispatch(getUser());
-
     });
+
+    const [dataChanged, setDataChanged] = useState(false);
 
     const onChange = (e) => {
         setValue({ ...form, [e.target.name]: e.target.value });
+        setDataChanged(true);
     };
 
-    const userName = useSelector(store => store.userReducer.userName);
-    const userLogin = useSelector(store => store.userReducer.userLogin);
+    const handleSaveProfile = () => {
+        dispatch(updateUser(form.name, form.email, form.password));
+    }
+
+    const handleCancelChanges = (e) => {
+        e.preventDefault();
+        setValue({
+            ...form,
+            name: userName,
+            email: userLogin,
+            password: '',
+        });
+    }
 
     return (
 
@@ -60,8 +74,8 @@ export const ProfilePage = () => {
                 <EmailInput
                     placeholder={'Логин'}
                     icon={'EditIcon'}
-                    value={form.login ?? ''}
-                    name={'login'}
+                    value={form.email ?? ''}
+                    name={'email'}
                     onChange={onChange}
                 />
                 <Input
@@ -72,16 +86,19 @@ export const ProfilePage = () => {
                     onChange={onChange}
                     value={''}
                 />
-                <div className={styles.profileButtons}>
-                    <Link className={styles.cancelButton}>Отмена</Link>
-                    <Button 
-                        htmlType="button"
-                        type="primary"
-                        size="medium"
-                    >
-                        Сохранить
-                    </Button>
-                </div>
+                {dataChanged &&
+                    <div className={styles.profileButtons}>
+                        <a href="#" className={styles.cancelButton} onClick={handleCancelChanges}>Отмена</a>
+                        <Button 
+                            htmlType="button"
+                            type="primary"
+                            size="medium"
+                            onClick={handleSaveProfile}
+                        >
+                            Сохранить
+                        </Button>
+                    </div>
+                }
             </section>
             
         </main>

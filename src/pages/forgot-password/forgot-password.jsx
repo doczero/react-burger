@@ -10,6 +10,7 @@ export const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
 
     const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
+    const isResettingPassword = useSelector(store => store.userReducer.isResettingPassword);
 
     const [form, setValue] = useState({ email: '' });
 
@@ -25,6 +26,9 @@ export const ForgotPasswordPage = () => {
         isAuthenticated ? (
             <Redirect to = '/' />
         ) : (
+            isResettingPassword ? (
+                <Redirect to = '/reset-password' />
+            ) : (
             <>
                 <section className={styles.loginFormWrapper}>
                     <div className={styles.loginForm}>
@@ -46,6 +50,7 @@ export const ForgotPasswordPage = () => {
                     </div>
                 </section>
             </>
+            )
         )
     )
 
