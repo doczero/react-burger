@@ -98,6 +98,7 @@ const BurgerIngredients = () => {
                                         name={item.name}
                                         price={item.price}
                                         image={item.image}
+                                        type={item.type}
                                     />
                                 </li>
                             ))}

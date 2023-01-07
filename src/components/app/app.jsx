@@ -1,36 +1,45 @@
-import React, { useEffect } from 'react';
-import styles from './app.module.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { LoginPage } from '../../pages/login';
+import { RegisterPage } from '../../pages/register';
+import { ForgotPasswordPage } from '../../pages/forgot-password';
+import { ResetPasswordPage } from '../../pages/reset-password';
+import { ProfilePage } from '../../pages/profile';
+import { NotFound404 } from '../../pages/notFound404';
+import { MainPage } from '../../pages/main';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/burgerConstructorActions';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 const App = () => {
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-
-    dispatch(getIngredients());
-
-  }, []);
-
   return (
     <>
-      <AppHeader />
-        <DndProvider backend={HTML5Backend}>
-          <main className={styles.main}>
-              <section className={styles.mainSection}>
-                <BurgerIngredients />
-              </section>
-              <section className={styles.mainSection}>   
-                  <BurgerConstructor />
-              </section>
-          </main>
-        </DndProvider>
+      <Router>
+        <AppHeader />
+        <Switch>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+          <Route path="/forgot-password">
+            <ForgotPasswordPage />
+          </Route>
+          <Route path="/reset-password">
+            <ResetPasswordPage />
+          </Route>
+          <ProtectedRoute path="/profile">
+            <ProfilePage />
+          </ProtectedRoute>
+          <Route path="/" exact={true}>
+            <MainPage />
+          </Route>
+          <Route path="*">
+            <NotFound404 />
+          </Route>
+        </Switch>
+      </Router>
     </>
   );
 }
