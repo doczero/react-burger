@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './main.module.css'
-import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../components/burger-constructor/burger-constructor';
-import { useDispatch } from 'react-redux';
-import { getIngredients } from '../services/burgerConstructorActions';
+import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const MainPage = () => {
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-
-    dispatch(getIngredients());
-
-  }, []);
 
   return (
     <>

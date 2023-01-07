@@ -3,7 +3,9 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
         REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
         FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_ERROR,
         RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR,
-        LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR
+        LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
+        GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
+        UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR,
     } from "./userActions";
 
 const initialState = {
@@ -89,6 +91,24 @@ export const userReducer = (state = initialState, action ) => {
             }
         }
 
+        case RESET_PASSWORD_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+
+        case RESET_PASSWORD_SUCCESS: {
+            return {
+                ...state,
+            }
+        }
+
+        case RESET_PASSWORD_ERROR: {
+            return {
+                ...state,
+            }
+        }
+
         case LOGOUT_REQUEST: {
             return {
                 ...state,
@@ -123,6 +143,44 @@ export const userReducer = (state = initialState, action ) => {
         }
 
         case REFRESH_TOKEN_SUCCESS: {
+            return {
+                ...state,
+            }
+        }
+
+        case GET_USER_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+
+        case GET_USER_SUCCESS: {
+            return {
+                ...state,
+                userName: action.payload.name,
+                userLogin: action.payload.email,
+            }
+        }
+
+        case GET_USER_ERROR: {
+            return {
+                ...state,
+            }
+        }
+
+        case UPDATE_USER_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+
+        case UPDATE_USER_SUCCESS: {
+            return {
+                ...state,
+            }
+        }
+
+        case UPDATE_USER_ERROR: {
             return {
                 ...state,
             }

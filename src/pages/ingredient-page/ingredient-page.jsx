@@ -1,10 +1,14 @@
 import React from 'react';
-import styles from './ingredient-details.module.css';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import styles from './ingredient-page.module.css';
 
-export const IngredientDetails = () => {
+export const IngredientPage = () => {
 
-    const currentIngredient = useSelector(store => store.burgerConstructorReducer.currentIngredient);
+    const { id } = useParams();
+
+    const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
+    const currentIngredient = allIngredients.find(item => item._id = id);
 
     return (
         <div className={`${styles.ingredientDetailsContainer} pb-15`}>
@@ -32,5 +36,3 @@ export const IngredientDetails = () => {
     )
 
 }
-
-export default IngredientDetails;

@@ -16,6 +16,17 @@
     gap: 24px;
 }
 
+.profileButtons {
+    display: flex;
+    justify-content: end;
+    gap: 28px;
+}
+
+.cancelButton {
+    display: flex;
+    align-items: center;
+}
+
 a {
     text-decoration: none;
 }

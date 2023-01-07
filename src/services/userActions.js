@@ -1,5 +1,5 @@
 import { baseURL } from "../api/api";
-import { setCookie } from "../utils/cookies";
+import { getCookie, setCookie } from "../utils/cookies";
 import { request } from "../utils/request";
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -20,6 +20,12 @@ export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_ERROR = 'GET_USER_ERROR';
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
 
 export const login = (email, password) => {
 
@@ -44,17 +50,11 @@ export const login = (email, password) => {
                     payload: responseData.data
                 });
                 sessionStorage.setItem('refreshToken', responseData.refreshToken);
-                /*
                 let authToken;
-                responseData.headers.forEach(header => {
-                    if (header.indexOf('Bearer') === 0) {
-                        authToken = header.split('Bearer')[1];
-                    }
-                });
+                authToken = responseData.accessToken.split('Bearer ')[1];
                 if (authToken) {
-                    setCookie('accessToken', authToken, { expires: 1200 } );
+                    setCookie('accessToken', authToken );
                 }
-                */
             })
             .catch( (error) => {
                 dispatch({
@@ -224,6 +224,72 @@ export const logout = () => {
                     type: LOGOUT_ERROR
                 })
                 alert("Ошибка при выходе из системы: " + error)
+            });
+
+    }
+
+}
+
+export const getUser = () => {
+
+    const requestUrl = baseURL + "/auth/user";
+
+    return function(dispatch) {
+
+        dispatch({
+            type: GET_USER_REQUEST
+        })
+
+        request(requestUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + getCookie('accessToken')
+            },
+        })
+            .then( (responseData) => {
+                dispatch({
+                    type: GET_USER_SUCCESS,
+                    payload: responseData.user
+                })
+            })
+            .catch( (error) => {
+                dispatch({
+                    type: GET_USER_ERROR
+                })
+                alert("Ошибка загрузки пользователя: " + error)
+            });
+
+    }
+
+}
+
+export const updateUser = () => {
+
+    const requestUrl = baseURL + "/auth/user";
+
+    return function(dispatch) {
+
+        dispatch({
+            type: UPDATE_USER_REQUEST
+        })
+
+        request(requestUrl, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + getCookie('accessToken')
+            },
+        })
+            .then( (responseData) => {
+                dispatch({
+                    type: UPDATE_USER_SUCCESS,
+                    payload: responseData.user
+                })
+            })
+            .catch( (error) => {
+                dispatch({
+                    type: UPDATE_USER_ERROR
+                })
+                alert("Ошибка обновления пользователя: " + error)
             });
 
     }
