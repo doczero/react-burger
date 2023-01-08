@@ -1,6 +1,6 @@
 import { baseURL } from "../api/api";
 import { getCookie, setCookie } from "../utils/cookies";
-import { request } from "../utils/request";
+import { request, requestWithRefresh } from "../utils/request";
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -238,7 +238,7 @@ export const getUser = () => {
             type: GET_USER_REQUEST
         })
 
-        request(requestUrl, {
+        requestWithRefresh(requestUrl, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + getCookie('accessToken')
@@ -271,7 +271,7 @@ export const updateUser = (name, email, password) => {
             type: UPDATE_USER_REQUEST
         })
 
-        request(requestUrl, {
+        requestWithRefresh(requestUrl, {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + getCookie('accessToken')

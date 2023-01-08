@@ -12,6 +12,7 @@ export const IngredientPage = () => {
 
     return (
         <div className={`${styles.ingredientDetailsContainer} pb-15`}>
+            <h2 className="text text_type_main-large">Детали ингредиента</h2>
             <img src={currentIngredient.image_large} alt={currentIngredient.name} />
             <span className={`${styles.ingredientName} text text_type_main-medium mt-4`}>{currentIngredient.name}</span>
             <div className={`${styles.ingredientDetailsItems} mt-8`}>
