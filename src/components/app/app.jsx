@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import { LoginPage } from '../../pages/login/login';
 import { RegisterPage } from '../../pages/register/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
@@ -12,6 +12,8 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { IngredientPage } from '../../pages/ingredient-page/ingredient-page';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/burgerConstructorActions';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const App = () => {
 
@@ -19,11 +21,15 @@ const App = () => {
 
   const { isLoading, error, allIngredients } = useSelector(store => store.burgerConstructorReducer);
 
+  let location = useLocation();
+  let background = location.state && location.state.background;
+  let history = useHistory();
+
   useEffect(() => {
 
     dispatch(getIngredients());
 
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <h1>Загрузка...</h1>
@@ -39,35 +45,44 @@ const App = () => {
 
   return (
     <>
-      <Router>
-        <AppHeader />
-        <Switch>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/register">
-            <RegisterPage />
-          </Route>
-          <Route path="/forgot-password">
-            <ForgotPasswordPage />
-          </Route>
-          <Route path="/reset-password">
-            <ResetPasswordPage />
-          </Route>
-          <ProtectedRoute path="/profile">
-            <ProfilePage />
-          </ProtectedRoute>
-          <Route path="/ingredients/:id">
-            <IngredientPage />
-          </Route>
-          <Route path="/" exact={true}>
-            <MainPage />
-          </Route>
-          <Route path="*">
-            <NotFound404 />
-          </Route>
-        </Switch>
-      </Router>
+      <AppHeader />
+      <Switch location={background || location}>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password">
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPasswordPage />
+        </Route>
+        <ProtectedRoute path="/profile">
+          <ProfilePage />
+        </ProtectedRoute>
+        <Route path="/ingredients/:id">
+          <IngredientPage />
+        </Route>
+        <Route path="/" exact={true}>
+          <MainPage />
+        </Route>
+        <Route path="*">
+          <NotFound404 />
+        </Route>
+      </Switch>
+      {background && (<Route path="/ingredients/:id">
+                    <Modal 
+                        title='Детали ингредиента'
+                        onClose={() => {
+                            history.replace({ pathname: "/"})
+                        }} 
+                    >
+                        <IngredientDetails />
+                    </Modal>
+                </Route>)
+      }
     </>
   );
 }

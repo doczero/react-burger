@@ -6,6 +6,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 const BurgerIngredients = () => {
 
@@ -13,6 +14,8 @@ const BurgerIngredients = () => {
     const bunsRef = useRef();
     const saucesRef = useRef();
     const mainRef = useRef();
+
+    const location = useLocation();
 
     const [currentTab, setCurrentTab] = useState("Булки");
 
@@ -92,15 +95,25 @@ const BurgerIngredients = () => {
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {bunArray.map((item) => (
-                                <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                    <IngredientCard 
-                                        id={item._id}
-                                        name={item.name}
-                                        price={item.price}
-                                        image={item.image}
-                                        type={item.type}
-                                    />
-                                </li>
+                                <Link
+                                    to={{
+                                        pathname: '/ingredients/' + item._id,
+                                        state: { background: location }
+                                    }}
+                                    className={styles.ingredientListItem}
+                                    key={item._id}
+                                >
+                                    <li onClick={() => handleIngredientClick(item)}>
+                                        <IngredientCard 
+                                            id={item._id}
+                                            name={item.name}
+                                            price={item.price}
+                                            image={item.image}
+                                            type={item.type}
+                                        />
+                                    </li>
+                                </Link>
+
                             ))}
                         </ul>
 
@@ -108,14 +121,23 @@ const BurgerIngredients = () => {
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {sauceArray.map((item) => (
-                                <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                    <IngredientCard
-                                        id={item._id}
-                                        name={item.name}
-                                        price={item.price}
-                                        image={item.image}
-                                    />
-                                </li>
+                               <Link
+                                    to={{
+                                        pathname: '/ingredients/' + item._id,
+                                        state: { background: location }
+                                    }}
+                                    className={styles.ingredientListItem}
+                                    key={item._id}
+                                >
+                                    <li onClick={() => handleIngredientClick(item)}>
+                                        <IngredientCard
+                                            id={item._id}
+                                            name={item.name}
+                                            price={item.price}
+                                            image={item.image}
+                                        />
+                                    </li>
+                                </Link>
                             ))}
                         </ul>
 
@@ -123,14 +145,23 @@ const BurgerIngredients = () => {
 
                     <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                         {mainArray.map((item) => (
-                            <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                <IngredientCard
-                                    id={item._id}
-                                    name={item.name}
-                                    price={item.price}
-                                    image={item.image}
-                                />
-                            </li>
+                            <Link
+                               to={{
+                                   pathname: '/ingredients/' + item._id,
+                                   state: { background: location }
+                               }}
+                               className={styles.ingredientListItem}
+                               key={item._id}
+                            >
+                                <li onClick={() => handleIngredientClick(item)}>
+                                    <IngredientCard
+                                        id={item._id}
+                                        name={item.name}
+                                        price={item.price}
+                                        image={item.image}
+                                    />
+                                </li>
+                            </Link>
                         ))}
                     </ul>
                 
