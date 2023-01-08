@@ -10,7 +10,9 @@ const initialState = {
     constructorIngredients: [],
     constructorBun: null,
     currentIngredient: null,
-    orderNumber: null
+    orderNumber: null,
+    isLoading: false,
+    error: '',
 
 }
 
@@ -21,19 +23,24 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         case GET_INGREDIENTS_REQUEST: {
             return {
                 ...state,
+                isLoading: true,
             }
         }
 
         case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
-                allIngredients: action.payload
+                allIngredients: action.payload,
+                isLoading: false,
+                error: '',
             }
         }
 
         case GET_INGREDIENTS_ERROR: {
             return {
                 ...state,
+                isLoading: false,
+                error: 'Не удалось загрузить ингредиенты',
             }
         }
 

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = () => {
 
@@ -16,14 +17,18 @@ const BurgerConstructor = () => {
     const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
     const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
     const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
+    const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
     const dispatch = useDispatch();
+    let history = useHistory();
 
     const handleMakeOrderClick = () => {
-
-        const orderIngredients = constructorIngredients.concat(bun);
-        dispatch(sendOrder(orderIngredients));
-        setModalActive(true);
-
+        if(!isAuthenticated) {
+            history.replace({ pathname: '/login' })
+        } else {
+            const orderIngredients = constructorIngredients.concat(bun);
+            dispatch(sendOrder(orderIngredients));
+            setModalActive(true);
+        }
     }
 
     const handleRemoveItem = (constructorId) => {
