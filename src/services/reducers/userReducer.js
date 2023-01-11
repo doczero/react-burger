@@ -6,13 +6,15 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
         LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
         GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
         UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR,
-    } from "./userActions";
+    } from "../actions/userActions";
 
 const initialState = {
     userName: null,
     userLogin: null,
     isAuthenticated: false,
     isResettingPassword: false,
+    isLoading: false,
+    error: ''
 }
 
 export const userReducer = (state = initialState, action ) => {
@@ -22,6 +24,7 @@ export const userReducer = (state = initialState, action ) => {
         case LOGIN_REQUEST: {
             return {
                 ...state,
+                isLoading: true,
             }
         }
 
@@ -29,30 +32,39 @@ export const userReducer = (state = initialState, action ) => {
             return {
                 ...state,
                 isAuthenticated: true,
+                isLoading: false,
+                error: '',
             }
         }
 
         case LOGIN_ERROR: {
             return {
                 ...state,
+                isLoading: false,
+                error: 'Ошибка при входе',
             }
         }
 
         case REGISTER_REQUEST: {
             return {
                 ...state,
+                isLoading: true,
             }
         }
 
         case REGISTER_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
+                error: '',
             }
         }
 
         case REGISTER_ERROR: {
             return {
                 ...state,
+                isLoading: false,
+                error: 'Ошибка при регистрации',
             }
         }
 
@@ -154,6 +166,7 @@ export const userReducer = (state = initialState, action ) => {
         case GET_USER_REQUEST: {
             return {
                 ...state,
+                isLoading: true,
             }
         }
 
@@ -162,30 +175,39 @@ export const userReducer = (state = initialState, action ) => {
                 ...state,
                 userName: action.payload.name,
                 userLogin: action.payload.email,
+                isLoading: false,
+                error: '',
             }
         }
 
         case GET_USER_ERROR: {
             return {
                 ...state,
+                isLoading: false,
+                error: 'Ошибка загрузки данных пользователя',
             }
         }
 
         case UPDATE_USER_REQUEST: {
             return {
                 ...state,
+                isLoading: true,
             }
         }
 
         case UPDATE_USER_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
+                error: '',
             }
         }
 
         case UPDATE_USER_ERROR: {
             return {
                 ...state,
+                isLoading: false,
+                error: 'Ошибка обновления пользователя',
             }
         }
 

@@ -1,0 +1,8 @@
+.ingredientDetailsPageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 520px;
+    margin: 120px auto;
+}
+

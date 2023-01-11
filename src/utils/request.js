@@ -13,8 +13,6 @@ function checkResponse(res) {
     return Promise.reject(`Ошибка ${res.status}`);
 }
 
-/****************************************************/
-
 export const refreshToken = () => {
     return fetch(baseURL + '/auth/token', {
       method: "POST",
@@ -22,7 +20,7 @@ export const refreshToken = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: sessionStorage.getItem("refreshToken"),
+        token: localStorage.getItem("refreshToken"),
       }),
     }).then(checkResponse);
   };

@@ -1,15 +1,13 @@
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR, 
-        SET_CURRENT_INGREDIENT, 
         SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
         ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR, CHANGE_INGREDIENTS_ORDER, ADD_BUN_TO_CONSTRUCTOR
-    } from "./burgerConstructorActions";
+    } from "../actions/burgerConstructorActions";
 
 const initialState = {
 
     allIngredients: [],
     constructorIngredients: [],
     constructorBun: null,
-    currentIngredient: null,
     orderNumber: null,
     isLoading: false,
     error: '',
@@ -41,13 +39,6 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 error: 'Не удалось загрузить ингредиенты',
-            }
-        }
-
-        case SET_CURRENT_INGREDIENT: {
-            return {
-                ...state,
-                currentIngredient: action.payload
             }
         }
 

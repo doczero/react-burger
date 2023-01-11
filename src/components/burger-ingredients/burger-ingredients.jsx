@@ -2,9 +2,6 @@ import React, { useState, useRef, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -53,24 +50,9 @@ const BurgerIngredients = () => {
 
     const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
 
-    const handleIngredientClick = ( item ) => {
-        dispatch( { type: SET_CURRENT_INGREDIENT, payload: item } );
-        setModalActive(true);
-    }
-
-    const [isModalActive, setModalActive] = useState(false);
-
     const bunArray = useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
     const sauceArray = useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
     const mainArray = useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
-
-    const handleCloseModal = () => {
-        dispatch({
-            type: SET_CURRENT_INGREDIENT,
-            payload: null
-        });
-        setModalActive(false);
-    }
 
     return(
         <>
@@ -103,7 +85,7 @@ const BurgerIngredients = () => {
                                     className={styles.ingredientListItem}
                                     key={item._id}
                                 >
-                                    <li onClick={() => handleIngredientClick(item)}>
+                                    <li>
                                         <IngredientCard 
                                             id={item._id}
                                             name={item.name}
@@ -129,7 +111,7 @@ const BurgerIngredients = () => {
                                     className={styles.ingredientListItem}
                                     key={item._id}
                                 >
-                                    <li onClick={() => handleIngredientClick(item)}>
+                                    <li>
                                         <IngredientCard
                                             id={item._id}
                                             name={item.name}
@@ -153,7 +135,7 @@ const BurgerIngredients = () => {
                                className={styles.ingredientListItem}
                                key={item._id}
                             >
-                                <li onClick={() => handleIngredientClick(item)}>
+                                <li>
                                     <IngredientCard
                                         id={item._id}
                                         name={item.name}
@@ -168,15 +150,6 @@ const BurgerIngredients = () => {
                 </div>
 
             </div>
-
-            {isModalActive &&
-                <Modal
-                    title={`Детали ингредиента`}
-                    onClose={handleCloseModal}
-                >
-                    <IngredientDetails />
-                </Modal>
-            }
 
         </>
     )

@@ -79,7 +79,7 @@ export const BurgerConstructorElement = ( { ingredient, handleClose, index, move
 }
 
 BurgerConstructorElement.propTypes = {
-    ingredient: ingredientType.isRequired,
+    ingredient: PropTypes.shape(ingredientType).isRequired,
     handleClose: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     moveIngredient: PropTypes.func.isRequired,

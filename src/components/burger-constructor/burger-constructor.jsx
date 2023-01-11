@@ -6,7 +6,8 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burgerConstructorActions';
+import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useHistory } from 'react-router-dom';

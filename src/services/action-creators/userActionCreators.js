@@ -1,31 +1,16 @@
-import { baseURL } from "../api/api";
-import { getCookie, setCookie } from "../utils/cookies";
-import { request, requestWithRefresh } from "../utils/request";
-
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_ERROR = 'REGISTER_ERROR';
-export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
-export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
-export const REFRESH_TOKEN_ERROR = 'REFRESH_TOKEN_ERROR';
-export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
-export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
-export const FORGOT_PASSWORD_ERROR = 'FORGOT_PASSWORD_ERROR';
-export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
-export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_ERROR = 'LOGOUT_ERROR';
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_ERROR = 'GET_USER_ERROR';
-export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
+import { baseURL } from "../../api/api";
+import { getCookie, setCookie } from "../../utils/cookies";
+import { request, requestWithRefresh } from "../../utils/request";
+import { 
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
+    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
+    REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
+    FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_ERROR,
+    RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR,
+    LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
+    GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
+    UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR
+} from "../actions/userActions";
 
 export const login = (email, password) => {
 
@@ -49,7 +34,7 @@ export const login = (email, password) => {
                     type: LOGIN_SUCCESS,
                     payload: responseData.data
                 });
-                sessionStorage.setItem('refreshToken', responseData.refreshToken);
+                localStorage.setItem('refreshToken', responseData.refreshToken);
                 let authToken;
                 authToken = responseData.accessToken.split('Bearer ')[1];
                 if (authToken) {
@@ -210,7 +195,7 @@ export const logout = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 'token': sessionStorage.getItem('refreshToken') ?? '' })
+            body: JSON.stringify({ 'token': localStorage.getItem('refreshToken') ?? '' })
         })
             .then( (responseData) => {
                 dispatch({
