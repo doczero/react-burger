@@ -3,6 +3,8 @@ import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './burger-constructor-element.module.css';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { ingredientType } from '../../utils/types';
 
 export const BurgerConstructorElement = ( { ingredient, handleClose, index, moveIngredient } ) => {
 
@@ -74,4 +76,11 @@ export const BurgerConstructorElement = ( { ingredient, handleClose, index, move
         </div>
     )
 
+}
+
+BurgerConstructorElement.propTypes = {
+    ingredient: PropTypes.shape(ingredientType).isRequired,
+    handleClose: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    moveIngredient: PropTypes.func.isRequired,
 }

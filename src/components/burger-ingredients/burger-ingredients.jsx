@@ -2,10 +2,8 @@ import React, { useState, useRef, useMemo } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 const BurgerIngredients = () => {
 
@@ -13,6 +11,8 @@ const BurgerIngredients = () => {
     const bunsRef = useRef();
     const saucesRef = useRef();
     const mainRef = useRef();
+
+    const location = useLocation();
 
     const [currentTab, setCurrentTab] = useState("Булки");
 
@@ -50,24 +50,9 @@ const BurgerIngredients = () => {
 
     const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
 
-    const handleIngredientClick = ( item ) => {
-        dispatch( { type: SET_CURRENT_INGREDIENT, payload: item } );
-        setModalActive(true);
-    }
-
-    const [isModalActive, setModalActive] = useState(false);
-
     const bunArray = useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
     const sauceArray = useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
     const mainArray = useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
-
-    const handleCloseModal = () => {
-        dispatch({
-            type: SET_CURRENT_INGREDIENT,
-            payload: null
-        });
-        setModalActive(false);
-    }
 
     return(
         <>
@@ -92,14 +77,25 @@ const BurgerIngredients = () => {
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {bunArray.map((item) => (
-                                <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                    <IngredientCard 
-                                        id={item._id}
-                                        name={item.name}
-                                        price={item.price}
-                                        image={item.image}
-                                    />
-                                </li>
+                                <Link
+                                    to={{
+                                        pathname: '/ingredients/' + item._id,
+                                        state: { background: location }
+                                    }}
+                                    className={styles.ingredientListItem}
+                                    key={item._id}
+                                >
+                                    <li>
+                                        <IngredientCard 
+                                            id={item._id}
+                                            name={item.name}
+                                            price={item.price}
+                                            image={item.image}
+                                            type={item.type}
+                                        />
+                                    </li>
+                                </Link>
+
                             ))}
                         </ul>
 
@@ -107,14 +103,23 @@ const BurgerIngredients = () => {
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                             {sauceArray.map((item) => (
-                                <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                    <IngredientCard
-                                        id={item._id}
-                                        name={item.name}
-                                        price={item.price}
-                                        image={item.image}
-                                    />
-                                </li>
+                               <Link
+                                    to={{
+                                        pathname: '/ingredients/' + item._id,
+                                        state: { background: location }
+                                    }}
+                                    className={styles.ingredientListItem}
+                                    key={item._id}
+                                >
+                                    <li>
+                                        <IngredientCard
+                                            id={item._id}
+                                            name={item.name}
+                                            price={item.price}
+                                            image={item.image}
+                                        />
+                                    </li>
+                                </Link>
                             ))}
                         </ul>
 
@@ -122,29 +127,29 @@ const BurgerIngredients = () => {
 
                     <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
                         {mainArray.map((item) => (
-                            <li key={item._id} className={styles.ingredientListItem} onClick={() => handleIngredientClick(item)}>
-                                <IngredientCard
-                                    id={item._id}
-                                    name={item.name}
-                                    price={item.price}
-                                    image={item.image}
-                                />
-                            </li>
+                            <Link
+                               to={{
+                                   pathname: '/ingredients/' + item._id,
+                                   state: { background: location }
+                               }}
+                               className={styles.ingredientListItem}
+                               key={item._id}
+                            >
+                                <li>
+                                    <IngredientCard
+                                        id={item._id}
+                                        name={item.name}
+                                        price={item.price}
+                                        image={item.image}
+                                    />
+                                </li>
+                            </Link>
                         ))}
                     </ul>
                 
                 </div>
 
             </div>
-
-            {isModalActive &&
-                <Modal
-                    title={`Детали ингредиента`}
-                    onClose={handleCloseModal}
-                >
-                    <IngredientDetails />
-                </Modal>
-            }
 
         </>
     )

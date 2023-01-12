@@ -1,14 +1,8 @@
-.main {
-    max-width: 1280px;
-    margin: 0 auto;
+.ingredientDetailsPageWrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    width: 520px;
+    margin: 120px auto;
 }
 
-.mainSection {
-    width: 600px;
-}
-
-.main-section:nth-child(2) {
-    width: 640px;
-}
