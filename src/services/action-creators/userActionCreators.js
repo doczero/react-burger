@@ -32,7 +32,7 @@ export const login = (email, password) => {
             .then( (responseData) => {
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    payload: responseData.data
+                    payload: responseData.user
                 });
                 localStorage.setItem('refreshToken', responseData.refreshToken);
                 let authToken;

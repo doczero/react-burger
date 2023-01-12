@@ -34,6 +34,8 @@ export const userReducer = (state = initialState, action ) => {
                 isAuthenticated: true,
                 isLoading: false,
                 error: '',
+                userName: action.payload.name,
+                userLogin: action.payload.email,
             }
         }
 
@@ -175,6 +177,7 @@ export const userReducer = (state = initialState, action ) => {
                 ...state,
                 userName: action.payload.name,
                 userLogin: action.payload.email,
+                isAuthenticated: true,
                 isLoading: false,
                 error: '',
             }

@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../services/action-creators/userActionCreators';
+import { useForm } from '../../hooks/useForm';
 
 export const ResetPasswordPage = () => {
 
     const dispatch = useDispatch();
 
-    const [form, setValue] = useState({
+    const { values, handleChange } = useForm({
         newPassword: '',
-        resetPasswordCode: '',
+        resetPasswordCode: ''        
     })
 
-    const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
-
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value })
-    }
+    const isResettingPassword = useSelector(store => store.userReducer.isResettingPassword);
 
     const handleResetPasswordRequest = (e) => {
         e.preventDefault();
-        dispatch(resetPassword(form.newPassword, form.resetPasswordCode));
+        dispatch(resetPassword(values.newPassword, values.resetPasswordCode));
     }
+
+    if (!isResettingPassword) {
+        return (
+          <Redirect to={{ pathname: '/forgot-password' }} />
+        )
+      }
 
     return (
         <section className={styles.loginFormWrapper}>
@@ -34,13 +37,15 @@ export const ResetPasswordPage = () => {
                         <PasswordInput
                             placeholder={'Введите новый пароль'}
                             name={'newPassword'}
-                            onChange={onChange}
+                            onChange={handleChange}
+                            value={values.newPassword}
                         />
                         <Input
                             type={'text'}
                             placeholder={'Введите код из письма'}
                             name={'resetPasswordCode'}
-                            onChange={onChange}
+                            onChange={handleChange}
+                            value={values.resetPasswordCode}
                         />
                         <Button htmlType="submit" type="primary" size="large">
                             Сохранить

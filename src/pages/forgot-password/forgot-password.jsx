@@ -4,6 +4,7 @@ import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-comp
 import { Link, Redirect } from 'react-router-dom';
 import { forgotPassword } from '../../services/action-creators/userActionCreators';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 export const ForgotPasswordPage = () => {
 
@@ -11,15 +12,13 @@ export const ForgotPasswordPage = () => {
 
     const isResettingPassword = useSelector(store => store.userReducer.isResettingPassword);
 
-    const [form, setValue] = useState({ email: '' });
-
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value })
-    }
+    const { values, handleChange } = useForm({
+        email: ''
+    })
 
     const handleForgotPasswordRequest = (e) => {
         e.preventDefault();
-        dispatch(forgotPassword(form.email));
+        dispatch(forgotPassword(values.email));
     }
 
     return (
@@ -34,8 +33,8 @@ export const ForgotPasswordPage = () => {
                             <EmailInput 
                                 placeholder={'Укажите e-mail'}
                                 name={'email'}
-                                onChange={onChange}
-                                value={form.email}
+                                onChange={handleChange}
+                                value={values.email}
                             />
                             <Button htmlType="submit" type="primary" size="large">
                                 Восстановить

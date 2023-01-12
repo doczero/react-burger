@@ -4,23 +4,20 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 import { Link } from 'react-router-dom';
 import { login } from '../../services/action-creators/userActionCreators';
 import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 export const LoginPage = () => {
 
     const dispatch = useDispatch();
 
-    const [form, setValue] = useState({
+    const { values, handleChange } = useForm({
         email: '',
         password: '',
-    });
-
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+    })
 
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch(login(form.email, form.password));
+        dispatch(login(values.email, values.password));
     }
 
     return (
@@ -31,13 +28,13 @@ export const LoginPage = () => {
                     <form className={styles.loginFormBody} onSubmit={handleLogin}>
                         <EmailInput
                             name={'email'}
-                            value={form.email}
-                            onChange={onChange}
+                            value={values.email}
+                            onChange={handleChange}
                         />
                         <PasswordInput
                             name={'password'}
-                            value={form.password}
-                            onChange={onChange}
+                            value={values.password}
+                            onChange={handleChange}
                         />
                         <Button htmlType="submit" type="primary" size="large">
                             Войти

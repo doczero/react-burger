@@ -14,6 +14,8 @@ import { getIngredients } from '../../services/action-creators/burgerConstructor
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import styles from './app.module.css';
+import { getCookie } from '../../utils/cookies';
+import { getUser } from '../../services/action-creators/userActionCreators';
 
 const App = () => {
 
@@ -27,9 +29,12 @@ const App = () => {
 
   useEffect(() => {
 
+    if (getCookie('accessToken')) {
+      dispatch(getUser());
+    }
     dispatch(getIngredients());
 
-  }, [dispatch]);
+  }, []);
 
   if (isLoading) {
     return <h1>Загрузка...</h1>

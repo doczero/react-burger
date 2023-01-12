@@ -4,24 +4,21 @@ import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-de
 import { Link } from 'react-router-dom';
 import { register } from '../../services/action-creators/userActionCreators';
 import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 export const RegisterPage = () => {
 
     const dispatch = useDispatch();
 
-    const [form, setValue] = useState({
+    const { values, handleChange } = useForm({
         email: '',
         password: '',
         name: '',
-    });
-
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+    })
 
     const handleRegister = (e) => {
         e.preventDefault();
-        dispatch(register(form.email, form.password, form.name)); 
+        dispatch(register(values.email, values.password, values.name)); 
     }
 
     return (
@@ -33,18 +30,18 @@ export const RegisterPage = () => {
                         <Input
                             type={'text'}
                             placeholder={'Имя'}
-                            value={form.name}
-                            onChange={onChange}
+                            value={values.name}
+                            onChange={handleChange}
                             name={'name'}
                         />
                         <EmailInput
-                            value={form.email}
-                            onChange={onChange}
+                            value={values.email}
+                            onChange={handleChange}
                             name={'email'}
                         />
                         <PasswordInput
-                            value={form.password}
-                            onChange={onChange}
+                            value={values.password}
+                            onChange={handleChange}
                             name={'password'}
                         />
                         <Button htmlType="submit" type="primary" size="large">

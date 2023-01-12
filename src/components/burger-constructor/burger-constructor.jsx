@@ -21,7 +21,7 @@ const BurgerConstructor = () => {
     const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
     const dispatch = useDispatch();
     let history = useHistory();
-
+    
     const handleMakeOrderClick = () => {
         if(!isAuthenticated) {
             history.replace({ pathname: '/login' })
@@ -119,6 +119,7 @@ const BurgerConstructor = () => {
                     type="primary"
                     size="large"
                     onClick={handleMakeOrderClick}
+                    disabled={(constructorIngredients.length === 0 && !bun) ? true : false}
                 >
                     Оформить заказ
                 </Button>

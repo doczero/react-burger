@@ -2,7 +2,8 @@ import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-
 import React, { useEffect, useState } from 'react';
 import styles from './profile.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, getUser, updateUser } from '../../services/action-creators/userActionCreators';
+import { logout, updateUser } from '../../services/action-creators/userActionCreators';
+import { useForm } from '../../hooks/useForm';
 
 export const ProfilePage = () => {
 
@@ -10,45 +11,45 @@ export const ProfilePage = () => {
 
     const { userName, userLogin, isLoading, error } = useSelector(store => store.userReducer);
 
+    const { values, handleChange, setValues } = useForm({
+        name: '',
+        email: '',
+        password: '',    
+    });
+
     useEffect(() => {
-        dispatch(getUser());
-        setValue({
+        setValues({
             name: userName,
             email: userLogin
         })
-    }, [dispatch]);
+    }, [userName, userLogin]);
 
     const handleLogoutClick = (e) => {
         e.preventDefault();
         dispatch(logout());
     }
 
-    const [form, setValue] = useState({
-        name: '',
-        email: '',
-        password: '',
-    });
-
     const [dataChanged, setDataChanged] = useState(false);
 
     const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
         setDataChanged(true);
+        handleChange(e);
     };
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
-        dispatch(updateUser(form.name, form.email, form.password));
+        dispatch(updateUser(values.name, values.email, values.password));
     }
 
     const handleCancelChanges = (e) => {
         e.preventDefault();
-        setValue({
-            ...form,
+        setValues({
+            ...values,
             name: userName,
             email: userLogin,
             password: '',
         });
+        setDataChanged(false);
     }
 
     if (isLoading) {
@@ -59,7 +60,7 @@ export const ProfilePage = () => {
         return <h1>Ошибка</h1>;
     }
 
-    if (!isLoading && error.length === 0 && userName && userLogin) {   
+    if (!isLoading && error.length === 0 /*&& userName && userLogin*/) {   
 
         return (
 
@@ -82,14 +83,14 @@ export const ProfilePage = () => {
                             type={'text'}
                             placeholder={'Имя'}
                             icon={'EditIcon'}
-                            value={form.name}
+                            value={values.name}
                             name={'name'}
                             onChange={onChange}
                         />
                         <EmailInput
                             placeholder={'Логин'}
                             icon={'EditIcon'}
-                            value={form.email}
+                            value={values.email}
                             name={'email'}
                             onChange={onChange}
                         />
