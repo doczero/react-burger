@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Redirect, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Route, Redirect, useLocation, RouteProps, } from 'react-router-dom';
 
-export const ProtectedRoute = ({ unAuthorizedOnly = false, children, ...rest }) => {
+type TProtectedRouteProps = RouteProps & {
+    unAuthorizedOnly?: boolean;
+}
 
-    const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
-    const loc = useLocation();
+export const ProtectedRoute: FC<TProtectedRouteProps> = ( { unAuthorizedOnly = false, children, ...rest } ) => {
+
+    const isAuthenticated = useSelector((store: any) => store.userReducer.isAuthenticated);
+    const loc = useLocation< { from: Location, background: Location }>();
 
     if (!isAuthenticated && !unAuthorizedOnly) {
         return (
@@ -32,10 +35,4 @@ export const ProtectedRoute = ({ unAuthorizedOnly = false, children, ...rest }) 
         </Route>
     );
 
-}
-
-ProtectedRoute.propTypes = {
-    unAuthorizedOnly: PropTypes.bool,
-    children: PropTypes.node,
-    rest: PropTypes.any,
 }

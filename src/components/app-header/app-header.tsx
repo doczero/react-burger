@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './app-header.module.css'
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
 
-    const { userName, isAuthenticated } = useSelector(store => store.userReducer);
+    const { userName, isAuthenticated } = useSelector((store: any) => store.userReducer);
 
     return(
         <header className={styles.header}>

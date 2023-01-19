@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { login } from '../../services/action-creators/userActionCreators';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
-export const LoginPage = () => {
+export const LoginPage: FC = () => {
 
     const dispatch = useDispatch();
 
@@ -15,8 +15,9 @@ export const LoginPage = () => {
         password: '',
     })
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
+        // @ts-ignore
         dispatch(login(values.email, values.password));
     }
 

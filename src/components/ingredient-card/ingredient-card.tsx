@@ -1,19 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import styles from './ingredient-card.module.css';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd/dist/hooks';
+import { TIngredient } from '../../utils/types';
 
-const IngredientCard = ( { id, name, price, image, type } ) => {
+interface IIngredienCard {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    type?: string;
+}
 
-    const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
-    const constructorBun = useSelector(store => store.burgerConstructorReducer.constructorBun);
+const IngredientCard = ( { id, name, price, image, type }: IIngredienCard ) => {
+
+    const constructorIngredients = useSelector((store: any) => store.burgerConstructorReducer.constructorIngredients);
+    const constructorBun = useSelector((store: any) => store.burgerConstructorReducer.constructorBun);
     let numInConstructor = 0;
     (type === "bun" && constructorBun !== null && id === constructorBun._id)
         ? numInConstructor = 2
-        : numInConstructor = constructorIngredients.filter(item => item._id === id).length;
+        : numInConstructor = constructorIngredients.filter((item: TIngredient) => item._id === id).length;
 
     const [, dragRef] = useDrag({
         type: "ingredient",
@@ -34,13 +42,6 @@ const IngredientCard = ( { id, name, price, image, type } ) => {
         </div>
     )
 
-}
-
-IngredientCard.propTypes = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
 }
 
 export default IngredientCard;

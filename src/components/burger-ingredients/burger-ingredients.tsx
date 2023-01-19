@@ -1,24 +1,25 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, FC } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { TIngredient } from '../../utils/types';
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
 
-    const containerRef = useRef();
-    const bunsRef = useRef();
-    const saucesRef = useRef();
-    const mainRef = useRef();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const bunsRef = useRef<HTMLHeadingElement>(null);
+    const saucesRef = useRef<HTMLHeadingElement>(null);
+    const mainRef = useRef<HTMLHeadingElement>(null);
 
     const location = useLocation();
 
-    const [currentTab, setCurrentTab] = useState("Булки");
+    const [currentTab, setCurrentTab] = useState<string>("Булки");
 
     const dispatch = useDispatch();
 
-    const setCurrent = (event) => {
+    const setCurrent = (event: string) => {
         let tabToScroll;
         switch(event) {
             case 'Булки':
@@ -33,26 +34,28 @@ const BurgerIngredients = () => {
             default:
                 break;
         }
-        tabToScroll.current.scrollIntoView( {behavior: "smooth"} );
+        if (tabToScroll && tabToScroll.current) {
+            tabToScroll.current.scrollIntoView( {behavior: "smooth"} );
+        }
         setCurrentTab(event);
     }
 
     const handleScroll = () => {
-        const containerY = containerRef.current.getBoundingClientRect().y;
-        const bunsOffset = Math.abs(bunsRef.current.getBoundingClientRect().y - containerY);
-        const saucesOffset = Math.abs(saucesRef.current.getBoundingClientRect().y - containerY);
-        const mainOffset = Math.abs(mainRef.current.getBoundingClientRect().y - containerY);
+        const containerY = containerRef.current!.getBoundingClientRect().y;
+        const bunsOffset = Math.abs(bunsRef.current!.getBoundingClientRect().y - containerY!);
+        const saucesOffset = Math.abs(saucesRef.current!.getBoundingClientRect().y - containerY!);
+        const mainOffset = Math.abs(mainRef.current!.getBoundingClientRect().y - containerY!);
         
-        if(bunsOffset < saucesOffset && bunsOffset < mainOffset) setCurrentTab("Булки");
-        if(saucesOffset < bunsOffset && saucesOffset < mainOffset) setCurrentTab("Соусы");
-        if(mainOffset < bunsOffset && mainOffset < saucesOffset) setCurrentTab("Начинки");
+        if(bunsOffset! < saucesOffset! && bunsOffset! < mainOffset!) setCurrentTab("Булки");
+        if(saucesOffset! < bunsOffset! && saucesOffset! < mainOffset!) setCurrentTab("Соусы");
+        if(mainOffset! < bunsOffset! && mainOffset! < saucesOffset!) setCurrentTab("Начинки");
     }
 
-    const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
+    const ingredients = useSelector((store: any) => store.burgerConstructorReducer.allIngredients);
 
-    const bunArray = useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
-    const sauceArray = useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
-    const mainArray = useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
+    const bunArray = useMemo(() => ingredients.filter((item: TIngredient) => item.type === "bun"), [ingredients]);
+    const sauceArray = useMemo(() => ingredients.filter((item: TIngredient) => item.type === "sauce"), [ingredients]);
+    const mainArray = useMemo(() => ingredients.filter((item: TIngredient) => item.type === "main"), [ingredients]);
 
     return(
         <>
@@ -76,7 +79,7 @@ const BurgerIngredients = () => {
                         <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
-                            {bunArray.map((item) => (
+                            {bunArray.map((item: TIngredient) => (
                                 <Link
                                     to={{
                                         pathname: '/ingredients/' + item._id,
@@ -102,7 +105,7 @@ const BurgerIngredients = () => {
                         <h2 className="text text_type_main-medium" ref={saucesRef}>Соусы</h2>
 
                         <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
-                            {sauceArray.map((item) => (
+                            {sauceArray.map((item: TIngredient) => (
                                <Link
                                     to={{
                                         pathname: '/ingredients/' + item._id,
@@ -126,7 +129,7 @@ const BurgerIngredients = () => {
                     <h2 className="text text_type_main-medium" ref={mainRef}>Начинки</h2>
 
                     <ul className={`${styles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
-                        {mainArray.map((item) => (
+                        {mainArray.map((item: TIngredient) => (
                             <Link
                                to={{
                                    pathname: '/ingredients/' + item._id,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import { LoginPage } from '../../pages/login/login';
 import { RegisterPage } from '../../pages/register/register';
@@ -16,22 +16,25 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import styles from './app.module.css';
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/action-creators/userActionCreators';
+import { Location } from 'history';
 
-const App = () => {
+const App: FC = () => {
 
   const dispatch = useDispatch();
 
-  const { isLoading, error, allIngredients } = useSelector(store => store.burgerConstructorReducer);
+  const { isLoading, error, allIngredients } = useSelector((store: any) => store.burgerConstructorReducer);
 
-  const location = useLocation();
+  const location = useLocation< { background: Location }>();
   const background = location.state && location.state.background;
   const history = useHistory();
 
   useEffect(() => {
 
     if (getCookie('accessToken')) {
+      // @ts-ignore
       dispatch(getUser());
     }
+    // @ts-ignore
     dispatch(getIngredients());
 
   }, []);
