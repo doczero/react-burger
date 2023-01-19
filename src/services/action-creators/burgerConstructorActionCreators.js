@@ -1,10 +1,10 @@
 import { request } from '../../utils/request';
-import { baseURL } from '../../api/api';
+import { BASE_URL } from '../../api/api';
 import { burgerConstructorActions } from '../actions/burgerConstructorActions';
 
 export const getIngredients = () => {
 
-    const dataUrl = baseURL + "/ingredients";
+    const dataUrl = BASE_URL + "/ingredients";
 
     return function(dispatch) {
 
@@ -32,7 +32,7 @@ export const getIngredients = () => {
 
 export const sendOrder = ( constructorIngredients ) => {
 
-    const dataUrl = baseURL + "/orders";
+    const dataUrl = BASE_URL + "/orders";
 
     const ingredients = constructorIngredients;
 

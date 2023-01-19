@@ -3,12 +3,11 @@ import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { register } from '../../services/action-creators/userActionCreators';
-import { useDispatch } from 'react-redux';
-import { useForm } from '../../hooks/useForm';
+import { useForm, useAppDispatch } from '../../hooks/hooks';
 
 export const RegisterPage: FC = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { values, handleChange } = useForm({
         email: '',
@@ -18,7 +17,6 @@ export const RegisterPage: FC = () => {
 
     const handleRegister = (e: React.FormEvent) => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(register(values.email, values.password, values.name)); 
     }
 

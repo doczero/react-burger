@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import styles from './app-header.module.css'
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 const AppHeader: FC = () => {
 
-    const { userName, isAuthenticated } = useSelector((store: any) => store.userReducer);
+    const { userName, isAuthenticated } = useAppSelector(store => store.userReducer);
 
     return(
         <header className={styles.header}>
@@ -14,7 +14,9 @@ const AppHeader: FC = () => {
                 <nav className={styles.linksBlock}>
                     <div className="pt-4 pr-5 pb-4 pl-5">
                         <BurgerIcon type="primary" />
-                        <span className="text text_type_main-default">Конструктор</span>
+                        <Link to="/profile">
+                            <span className="text text_type_main-default text_color_inactive">Конструктор</span>
+                        </Link>
                     </div>
                     <div className="pt-4 pr-5 pb-4 pl-5">
                         <ListIcon type="secondary" />

@@ -2,9 +2,9 @@ import React, { useState, useRef, useMemo, FC } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { TIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 const BurgerIngredients: FC = () => {
 
@@ -17,7 +17,7 @@ const BurgerIngredients: FC = () => {
 
     const [currentTab, setCurrentTab] = useState<string>("Булки");
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const setCurrent = (event: string) => {
         let tabToScroll;
@@ -51,7 +51,7 @@ const BurgerIngredients: FC = () => {
         if(mainOffset! < bunsOffset! && mainOffset! < saucesOffset!) setCurrentTab("Начинки");
     }
 
-    const ingredients = useSelector((store: any) => store.burgerConstructorReducer.allIngredients);
+    const ingredients = useAppSelector(store => store.burgerConstructorReducer.allIngredients);
 
     const bunArray = useMemo(() => ingredients.filter((item: TIngredient) => item.type === "bun"), [ingredients]);
     const sauceArray = useMemo(() => ingredients.filter((item: TIngredient) => item.type === "sauce"), [ingredients]);

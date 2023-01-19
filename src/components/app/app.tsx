@@ -9,7 +9,6 @@ import { NotFound404 } from '../../pages/not-found-404/notFound404';
 import { MainPage } from '../../pages/main/main';
 import AppHeader from '../app-header/app-header';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/action-creators/burgerConstructorActionCreators';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -17,12 +16,13 @@ import styles from './app.module.css';
 import { getCookie } from '../../utils/cookies';
 import { getUser } from '../../services/action-creators/userActionCreators';
 import { Location } from 'history';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 const App: FC = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { isLoading, error, allIngredients } = useSelector((store: any) => store.burgerConstructorReducer);
+  const { isLoading, error, allIngredients } = useAppSelector(store => store.burgerConstructorReducer);
 
   const location = useLocation< { background: Location }>();
   const background = location.state && location.state.background;
@@ -31,10 +31,8 @@ const App: FC = () => {
   useEffect(() => {
 
     if (getCookie('accessToken')) {
-      // @ts-ignore
       dispatch(getUser());
     }
-    // @ts-ignore
     dispatch(getIngredients());
 
   }, []);

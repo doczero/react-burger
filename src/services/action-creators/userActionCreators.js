@@ -1,11 +1,11 @@
-import { baseURL } from "../../api/api";
+import { BASE_URL } from "../../api/api";
 import { getCookie, setCookie } from "../../utils/cookies";
 import { request, requestWithRefresh } from "../../utils/request";
 import { userActions } from "../actions/userActions";
 
 export const login = (email, password) => {
 
-    const requestUrl = baseURL + "/auth/login";
+    const requestUrl = BASE_URL + "/auth/login";
 
     return function(dispatch) {
 
@@ -45,7 +45,7 @@ export const login = (email, password) => {
 
 export const register = (email, password, name) => {
 
-    const requestUrl = baseURL + "/auth/register";
+    const requestUrl = BASE_URL + "/auth/register";
 
     return function(dispatch) {
 
@@ -79,7 +79,7 @@ export const register = (email, password, name) => {
 
 export const refreshToken = () => {
 
-    const requestUrl = baseURL + "/auth/token";
+    const requestUrl = BASE_URL + "/auth/token";
 
     return function(dispatch) {
 
@@ -107,7 +107,7 @@ export const refreshToken = () => {
 
 export const forgotPassword = (email) => {
 
-    const requestUrl = baseURL + "/password-reset";
+    const requestUrl = BASE_URL + "/password-reset";
 
     return function(dispatch) {
 
@@ -140,7 +140,7 @@ export const forgotPassword = (email) => {
 
 export const resetPassword = (newPassword, resetPasswordCode) => {
 
-    const requestUrl = baseURL + "/password-reset/reset";
+    const requestUrl = BASE_URL + "/password-reset/reset";
 
     return function(dispatch) {
 
@@ -173,7 +173,7 @@ export const resetPassword = (newPassword, resetPasswordCode) => {
 
 export const logout = () => {
 
-    const requestUrl = baseURL + "/auth/logout";
+    const requestUrl = BASE_URL + "/auth/logout";
 
     return function(dispatch) {
 
@@ -206,7 +206,7 @@ export const logout = () => {
 
 export const getUser = () => {
 
-    const requestUrl = baseURL + "/auth/user";
+    const requestUrl = BASE_URL + "/auth/user";
 
     return function(dispatch) {
 
@@ -239,7 +239,7 @@ export const getUser = () => {
 
 export const updateUser = (name, email, password) => {
 
-    const requestUrl = baseURL + "/auth/user";
+    const requestUrl = BASE_URL + "/auth/user";
 
     return function(dispatch) {
 

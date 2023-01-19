@@ -2,8 +2,8 @@ import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burg
 import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './burger-constructor-element.module.css';
-import { useSelector } from 'react-redux';
 import { TConstructorIngredient } from '../../utils/types';
+import { useAppSelector } from '../../hooks/hooks';
 
 interface IBurgerConstructorElement {
     ingredient: TConstructorIngredient;
@@ -14,7 +14,7 @@ interface IBurgerConstructorElement {
 
 export const BurgerConstructorElement = ( { ingredient, handleClose, index, moveIngredient }: IBurgerConstructorElement ) => {
 
-    const constructorIngredients = useSelector((store: any) => store.burgerConstructorReducer.constructorIngredients);
+    const constructorIngredients = useAppSelector(store => store.burgerConstructorReducer.constructorIngredients);
 
     const id = ingredient.constructorId;
 

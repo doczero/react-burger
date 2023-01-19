@@ -1,12 +1,12 @@
-import { baseURL } from "../api/api";
+import { BASE_URL } from "../api/api";
 import { setCookie } from "./cookies";
 
-export function request(url, options) {
+export function request(url: string, options: RequestInit) {
     return fetch(url, options)
         .then(checkResponse)
 }
 
-function checkResponse(res) {
+function checkResponse(res: Response): Promise<any> {
     if(res.ok) {
         return res.json();
     }
@@ -14,7 +14,7 @@ function checkResponse(res) {
 }
 
 export const refreshToken = () => {
-    return fetch(baseURL + '/auth/token', {
+    return fetch(BASE_URL + '/auth/token', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,11 +25,11 @@ export const refreshToken = () => {
     }).then(checkResponse);
   };
   
-  export const requestWithRefresh = async (url, options) => {
+  export const requestWithRefresh = async (url: string, options: RequestInit & { headers: { authorization: string} } ) => {
     try {
       const res = await fetch(url, options);
       return await checkResponse(res);
-    } catch (err) {
+    } catch (err: any) {
       if (err.message === "jwt expired") {
         const refreshData = await refreshToken();
         if (!refreshData.success) {

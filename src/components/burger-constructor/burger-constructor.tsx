@@ -5,22 +5,22 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
 import { burgerConstructorActions } from '../../services/actions/burgerConstructorActions';
 import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useHistory } from 'react-router-dom';
 import { TConstructorIngredient, TIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 const BurgerConstructor: FC = () => {
 
     const [isModalActive, setModalActive] = useState<boolean>(false);
-    const allIngredients = useSelector((store: any) => store.burgerConstructorReducer.allIngredients);
-    const constructorIngredients = useSelector((store: any) => store.burgerConstructorReducer.constructorIngredients);
-    const bun = useSelector((store: any) => store.burgerConstructorReducer.constructorBun);
-    const isAuthenticated = useSelector((store: any) => store.userReducer.isAuthenticated);
-    const dispatch = useDispatch();
+    const allIngredients = useAppSelector(store => store.burgerConstructorReducer.allIngredients);
+    const constructorIngredients = useAppSelector(store => store.burgerConstructorReducer.constructorIngredients);
+    const bun = useAppSelector(store => store.burgerConstructorReducer.constructorBun);
+    const isAuthenticated = useAppSelector(store => store.userReducer.isAuthenticated);
+    const dispatch = useAppDispatch();
     let history = useHistory();
     
     const handleMakeOrderClick = () => {
@@ -28,7 +28,6 @@ const BurgerConstructor: FC = () => {
             history.replace({ pathname: '/login' })
         } else {
             const orderIngredients = constructorIngredients.concat(bun);
-            // @ts-ignore
             dispatch(sendOrder(orderIngredients));
             setModalActive(true);
         }
@@ -56,16 +55,13 @@ const BurgerConstructor: FC = () => {
         drop(itemId: any) {
             const item = allIngredients.find((item: TIngredient) => item._id === itemId.id);
             item.type === "bun"
-                // @ts-ignore
                 ? dispatch(addBunToConstructor(item))
-                // @ts-ignore
                 : dispatch(addIngredientToConstructor(item));
         }
     })
 
     const moveIngredient = (dragIndex: number, hoverIndex: number, constructorIngredients: TConstructorIngredient[]) => {
 
-        // @ts-ignore
         dispatch(changeIngredientsSort(dragIndex, hoverIndex, constructorIngredients));
 
     }

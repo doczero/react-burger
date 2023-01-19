@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import styles from './order-details.module.css';
 import iconOrderAccepted from '../../images/iconOrderAccepted.svg';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 const OrderDetails: FC = () => {
 
-    const orderNumber = useSelector((store: any) => store.burgerConstructorReducer.orderNumber);
+    const orderNumber = useAppSelector(store => store.burgerConstructorReducer.orderNumber);
 
     return (
         <div className={`${styles.orderDetailsContainer} pt-30 pb-30`}>

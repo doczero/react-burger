@@ -2,9 +2,9 @@ import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import styles from './ingredient-card.module.css';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd/dist/hooks';
 import { TIngredient } from '../../utils/types';
+import { useAppSelector } from '../../hooks/hooks';
 
 interface IIngredienCard {
     id: string;
@@ -16,8 +16,8 @@ interface IIngredienCard {
 
 const IngredientCard = ( { id, name, price, image, type }: IIngredienCard ) => {
 
-    const constructorIngredients = useSelector((store: any) => store.burgerConstructorReducer.constructorIngredients);
-    const constructorBun = useSelector((store: any) => store.burgerConstructorReducer.constructorBun);
+    const constructorIngredients = useAppSelector(store => store.burgerConstructorReducer.constructorIngredients);
+    const constructorBun = useAppSelector(store => store.burgerConstructorReducer.constructorBun);
     let numInConstructor = 0;
     (type === "bun" && constructorBun !== null && id === constructorBun._id)
         ? numInConstructor = 2

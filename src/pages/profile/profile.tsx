@@ -1,46 +1,50 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, useState, FC } from 'react';
 import styles from './profile.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { logout, updateUser } from '../../services/action-creators/userActionCreators';
-import { useForm } from '../../hooks/useForm';
+import { useForm } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+
+type FormStateType = {
+    name: string;
+    email: string;
+};
 
 export const ProfilePage: FC = () => {
 
-    const dispatch = useDispatch();
-
-    const { userName, userLogin, isLoading, error } = useSelector((store: any) => store.userReducer);
-
-    const { values, handleChange, setValues } = useForm({
+    const initialFormState: FormStateType = {
         name: '',
         email: '',
-        password: '',    
-    });
+    }
+
+    const dispatch = useAppDispatch();
+
+    const { userName, userLogin, isLoading, error } = useAppSelector(store => store.userReducer);
+
+    const { values, handleChange, setValues } = useForm<FormStateType>(initialFormState);
 
     useEffect(() => {
         setValues({
             name: userName,
             email: userLogin
         })
-    }, [userName, userLogin]);
+    }, [userName, userLogin, setValues]);
 
     const handleLogoutClick = (e: React.FormEvent) => {
         e.preventDefault();
-        // @ts-ignore
         dispatch(logout());
     }
 
     const [dataChanged, setDataChanged] = useState<boolean>(false);
 
-    const onChange = (e: React.FormEvent) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDataChanged(true);
         handleChange(e);
     };
 
     const handleSaveProfile = (e: React.FormEvent) => {
         e.preventDefault();
-        // @ts-ignore
-        dispatch(updateUser(values.name, values.email, values.password));
+        dispatch(updateUser(values.name, values.email));
     }
 
     const handleCancelChanges = (e: React.FormEvent) => {
@@ -49,7 +53,6 @@ export const ProfilePage: FC = () => {
             ...values,
             name: userName,
             email: userLogin,
-            password: '',
         });
         setDataChanged(false);
     }
@@ -68,7 +71,7 @@ export const ProfilePage: FC = () => {
             <section className={styles.profileMenu}>
                 <p className="text text_type_main-medium pt-4 pb-4">Профиль</p>
                 <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">История заказов</p>
-                <a href="#">
+                <a href="/">
                     <p
                         className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
                         onClick={handleLogoutClick}
@@ -103,7 +106,7 @@ export const ProfilePage: FC = () => {
                     />
                     {dataChanged &&
                         <div className={styles.profileButtons}>
-                            <a href="#" className={styles.cancelButton} onClick={handleCancelChanges}>Отмена</a>
+                            <a href="/" className={styles.cancelButton} onClick={handleCancelChanges}>Отмена</a>
                             <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
                         </div>
                     }
