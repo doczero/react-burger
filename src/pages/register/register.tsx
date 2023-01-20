@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { register } from '../../services/action-creators/userActionCreators';
-import { useDispatch } from 'react-redux';
-import { useForm } from '../../hooks/useForm';
+import { useForm, useAppDispatch } from '../../hooks/hooks';
 
-export const RegisterPage = () => {
+export const RegisterPage: FC = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { values, handleChange } = useForm({
         email: '',
@@ -16,7 +15,7 @@ export const RegisterPage = () => {
         name: '',
     })
 
-    const handleRegister = (e) => {
+    const handleRegister = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(register(values.email, values.password, values.name)); 
     }

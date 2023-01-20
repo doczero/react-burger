@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import styles from './burger-constructor.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/button';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burgerConstructorActions';
+import { burgerConstructorActions } from '../../services/actions/burgerConstructorActions';
 import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useHistory } from 'react-router-dom';
+import { TConstructorIngredient, TIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
 
-    const [isModalActive, setModalActive] = useState(false);
-    const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
-    const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
-    const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
-    const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
-    const dispatch = useDispatch();
+    const [isModalActive, setModalActive] = useState<boolean>(false);
+    const allIngredients = useAppSelector(store => store.burgerConstructorReducer.allIngredients);
+    const constructorIngredients = useAppSelector(store => store.burgerConstructorReducer.constructorIngredients);
+    const bun = useAppSelector(store => store.burgerConstructorReducer.constructorBun);
+    const isAuthenticated = useAppSelector(store => store.userReducer.isAuthenticated);
+    const dispatch = useAppDispatch();
     let history = useHistory();
     
     const handleMakeOrderClick = () => {
@@ -32,14 +33,14 @@ const BurgerConstructor = () => {
         }
     }
 
-    const handleRemoveItem = (constructorId) => {
+    const handleRemoveItem = (constructorId: string) => {
         dispatch({
-            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+            type: burgerConstructorActions.REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
             payload: constructorId
         })
     }
 
-    let totalCost = constructorIngredients.reduce( (sum, currentItem) => {
+    let totalCost = constructorIngredients.reduce( (sum: number, currentItem: TIngredient) => {
         return sum + currentItem.price;
     }, 0);
 
@@ -51,13 +52,15 @@ const BurgerConstructor = () => {
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
-        drop(itemId) {
-            const item = allIngredients.find(item => item._id === itemId.id);
-            item.type === "bun" ? dispatch(addBunToConstructor(item)) : dispatch(addIngredientToConstructor(item));
+        drop(itemId: any) {
+            const item = allIngredients.find((item: TIngredient) => item._id === itemId.id);
+            item.type === "bun"
+                ? dispatch(addBunToConstructor(item))
+                : dispatch(addIngredientToConstructor(item));
         }
     })
 
-    const moveIngredient = (dragIndex, hoverIndex, constructorIngredients) => {
+    const moveIngredient = (dragIndex: number, hoverIndex: number, constructorIngredients: TConstructorIngredient[]) => {
 
         dispatch(changeIngredientsSort(dragIndex, hoverIndex, constructorIngredients));
 
@@ -81,7 +84,7 @@ const BurgerConstructor = () => {
                 <div className={`${styles.burgerConstructorInnerItems} pr-2`}>
 
                     {constructorIngredients
-                    .map((item, index) => (
+                    .map((item: TConstructorIngredient, index: number) => (
                         <div key={item.constructorId} className={styles.burgerConstructorItem}>
                             <BurgerConstructorElement
                                 ingredient={item}

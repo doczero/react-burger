@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { TIngredient } from '../../utils/types';
+import { useAppSelector } from '../../hooks/hooks';
 
-export const IngredientDetails = () => {
+export const IngredientDetails: FC = () => {
 
-    const { id } = useParams();
-    const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
-    const currentIngredient = allIngredients.find(item => item._id === id);
+    const { id }: any = useParams();
+    const allIngredients = useAppSelector(store => store.burgerConstructorReducer.allIngredients);
+    const currentIngredient = allIngredients.find((item: TIngredient) => item._id === id);
 
     return (
         <div className={`${styles.ingredientDetailsContainer} pb-15`}>
