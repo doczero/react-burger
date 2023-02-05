@@ -3,8 +3,7 @@ import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '../../utils/types';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { TIngredient, useAppDispatch, useAppSelector } from '../../services/types/index';
 
 const BurgerIngredients: FC = () => {
 

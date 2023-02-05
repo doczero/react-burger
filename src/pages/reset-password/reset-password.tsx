@@ -4,7 +4,7 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import { Link, Redirect } from 'react-router-dom';
 import { resetPassword } from '../../services/action-creators/userActionCreators';
 import { useForm } from '../../hooks/hooks';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/types/index';
 
 export const ResetPasswordPage: FC = () => {
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './order-details.module.css';
 import iconOrderAccepted from '../../images/iconOrderAccepted.svg';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppSelector } from '../../services/types/index';
 
 const OrderDetails: FC = () => {
 

@@ -1,29 +1,46 @@
-import { burgerConstructorActions } from "../actions/burgerConstructorActions";
-import { TConstructorIngredient } from "../../utils/types";
+import {
+    GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR,
+    ADD_BUN_TO_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR,
+    REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
+    CHANGE_INGREDIENTS_ORDER,
+    SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
+    GET_ORDER_INFO_REQUEST, GET_ORDER_INFO_SUCCESS, GET_ORDER_INFO_ERROR,
+} from "../actions/burgerConstructorActions";
+import { TConstructorIngredient, TIngredient, TOrder } from "../../services/types/index";
+import { TBurgerConstructorActions } from "../actions/burgerConstructorActions";
 
-const initialState = {
+type TBurgerConstructorState = {
+    allIngredients: ReadonlyArray<TIngredient>,
+    constructorIngredients: Array<TConstructorIngredient>,
+    constructorBun:  | null,
+    orderNumber: number | null,
+    isLoading: boolean,
+    error: string | null,
+    currentOrder: TOrder | null,  
+}
 
+const initialState: TBurgerConstructorState = {
     allIngredients: [],
     constructorIngredients: [],
     constructorBun: null,
     orderNumber: null,
     isLoading: false,
     error: '',
-
+    currentOrder: null,
 }
 
-export const burgerConstructorReducer = (state = initialState, action: any) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions) => {
     
     switch(action.type) {
 
-        case burgerConstructorActions.GET_INGREDIENTS_REQUEST: {
+        case GET_INGREDIENTS_REQUEST: {
             return {
                 ...state,
                 isLoading: true,
             }
         }
 
-        case burgerConstructorActions.GET_INGREDIENTS_SUCCESS: {
+        case GET_INGREDIENTS_SUCCESS: {
             return {
                 ...state,
                 allIngredients: action.payload,
@@ -32,7 +49,7 @@ export const burgerConstructorReducer = (state = initialState, action: any) => {
             }
         }
 
-        case burgerConstructorActions.GET_INGREDIENTS_ERROR: {
+        case GET_INGREDIENTS_ERROR: {
             return {
                 ...state,
                 isLoading: false,
@@ -40,28 +57,28 @@ export const burgerConstructorReducer = (state = initialState, action: any) => {
             }
         }
 
-        case burgerConstructorActions.ADD_BUN_TO_CONSTRUCTOR: {
+        case ADD_BUN_TO_CONSTRUCTOR: {
             return {
                 ...state,
                 constructorBun: action.payload
             }
         }
 
-        case burgerConstructorActions.ADD_INGREDIENT_TO_CONSTRUCTOR: {
+        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
                 constructorIngredients: [...state.constructorIngredients, action.payload]
             }
         }
 
-        case burgerConstructorActions.REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
+        case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
             return {
                 ...state,
                 constructorIngredients: [...state.constructorIngredients].filter((item: TConstructorIngredient) => item.constructorId !== action.payload)
             }
         }
 
-        case burgerConstructorActions.CLEAR_CONSTRUCTOR: {
+        case CLEAR_CONSTRUCTOR: {
             return {
                 ...state,
                 constructorIngredients: [],
@@ -69,27 +86,46 @@ export const burgerConstructorReducer = (state = initialState, action: any) => {
             }
         }
 
-        case burgerConstructorActions.CHANGE_INGREDIENTS_ORDER: {
+        case CHANGE_INGREDIENTS_ORDER: {
             return {
                 ...state,
                 constructorIngredients: action.payload
             }
         }
 
-        case burgerConstructorActions.SEND_ORDER_REQUEST: {
+        case SEND_ORDER_REQUEST: {
             return {
                 ...state,
             }
         }
 
-        case burgerConstructorActions.SEND_ORDER_SUCCESS: {
+        case SEND_ORDER_SUCCESS: {
             return {
                 ...state,
                 orderNumber: action.payload
             }
         }
 
-        case burgerConstructorActions.SEND_ORDER_ERROR: {
+        case SEND_ORDER_ERROR: {
+            return {
+                ...state,
+            }
+        }
+
+        case GET_ORDER_INFO_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+
+        case GET_ORDER_INFO_SUCCESS: {
+            return {
+                ...state,
+                currentOrder: action.payload
+            }
+        }
+
+        case GET_ORDER_INFO_ERROR: {
             return {
                 ...state,
             }
