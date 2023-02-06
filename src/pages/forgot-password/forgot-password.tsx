@@ -4,7 +4,7 @@ import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-comp
 import { Link, Redirect } from 'react-router-dom';
 import { forgotPassword } from '../../services/action-creators/userActionCreators';
 import { useForm } from '../../hooks/hooks';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/types/index';
 
 export const ForgotPasswordPage: FC = () => {
 

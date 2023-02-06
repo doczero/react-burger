@@ -3,7 +3,8 @@ import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { login } from '../../services/action-creators/userActionCreators';
-import { useForm, useAppDispatch } from '../../hooks/hooks';
+import { useForm } from '../../hooks/hooks';
+import { useAppDispatch } from '../../services/types/index';
 
 export const LoginPage: FC = () => {
 

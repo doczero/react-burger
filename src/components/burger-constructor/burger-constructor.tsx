@@ -5,13 +5,12 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { burgerConstructorActions } from '../../services/actions/burgerConstructorActions';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burgerConstructorActions';
 import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useHistory } from 'react-router-dom';
-import { TConstructorIngredient, TIngredient } from '../../utils/types';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { TConstructorIngredient, TIngredient, useAppDispatch, useAppSelector } from '../../services/types/index';
 
 const BurgerConstructor: FC = () => {
 
@@ -27,7 +26,12 @@ const BurgerConstructor: FC = () => {
         if(!isAuthenticated) {
             history.replace({ pathname: '/login' })
         } else {
-            const orderIngredients = constructorIngredients.concat(bun);
+            let orderIngredients;
+            if (bun) {
+                orderIngredients = constructorIngredients.concat(bun);
+            } else {
+                orderIngredients = constructorIngredients;
+            }
             dispatch(sendOrder(orderIngredients));
             setModalActive(true);
         }
@@ -35,11 +39,12 @@ const BurgerConstructor: FC = () => {
 
     const handleRemoveItem = (constructorId: string) => {
         dispatch({
-            type: burgerConstructorActions.REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
             payload: constructorId
         })
     }
 
+    //@ts-ignore
     let totalCost = constructorIngredients.reduce( (sum: number, currentItem: TIngredient) => {
         return sum + currentItem.price;
     }, 0);
@@ -54,9 +59,10 @@ const BurgerConstructor: FC = () => {
         accept: "ingredient",
         drop(itemId: any) {
             const item = allIngredients.find((item: TIngredient) => item._id === itemId.id);
-            item.type === "bun"
-                ? dispatch(addBunToConstructor(item))
-                : dispatch(addIngredientToConstructor(item));
+            if (item) {
+                if (item.type === "bun") dispatch(addBunToConstructor(item));
+                if (item && item.type !== "bun") dispatch(addIngredientToConstructor(item));
+            }
         }
     })
 

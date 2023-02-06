@@ -3,11 +3,12 @@ import React, { useEffect, useState, FC } from 'react';
 import styles from './profile.module.css';
 import { logout, updateUser } from '../../services/action-creators/userActionCreators';
 import { useForm } from '../../hooks/hooks';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/types/index';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 
 type FormStateType = {
-    name: string;
-    email: string;
+    name: string | null;
+    email: string | null;
 };
 
 export const ProfilePage: FC = () => {
@@ -16,6 +17,8 @@ export const ProfilePage: FC = () => {
         name: '',
         email: '',
     }
+
+    const { url } = useRouteMatch();
 
     const dispatch = useAppDispatch();
 
@@ -44,6 +47,7 @@ export const ProfilePage: FC = () => {
 
     const handleSaveProfile = (e: React.FormEvent) => {
         e.preventDefault();
+        //@ts-ignore
         dispatch(updateUser(values.name, values.email));
     }
 
@@ -61,7 +65,7 @@ export const ProfilePage: FC = () => {
         return <h1>Загрузка</h1>;
     }
 
-    if (!isLoading && error.length > 0) {
+    if (!isLoading && error && error.length > 0) {
         return <h1>Ошибка</h1>;
     }
 
@@ -70,7 +74,9 @@ export const ProfilePage: FC = () => {
         <main className={styles.profileMain}>
             <section className={styles.profileMenu}>
                 <p className="text text_type_main-medium pt-4 pb-4">Профиль</p>
-                <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">История заказов</p>
+                <p className="text text_type_main-medium pt-4 pb-4 text_color_inactive">
+                    <NavLink to={`${url}/orders`} exact={true}>История заказов</NavLink>
+                </p>
                 <a href="/">
                     <p
                         className="text text_type_main-medium pt-4 pb-4 text_color_inactive"
@@ -85,6 +91,7 @@ export const ProfilePage: FC = () => {
                         type={'text'}
                         placeholder={'Имя'}
                         icon={'EditIcon'}
+                        //@ts-ignore
                         value={values.name}
                         name={'name'}
                         onChange={onChange}
@@ -92,6 +99,7 @@ export const ProfilePage: FC = () => {
                     <Input
                         placeholder={'Логин'}
                         icon={'EditIcon'}
+                        //@ts-ignore
                         value={values.email}
                         name={'email'}
                         onChange={onChange}
