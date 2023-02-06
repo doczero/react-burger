@@ -79,3 +79,8 @@ export type TParams = {
     number?: string;
     id?: string;
 }
+
+export type TUser = {
+    name: string;
+    email: string;
+}

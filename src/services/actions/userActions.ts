@@ -1,3 +1,5 @@
+import { TUser } from "../types";
+
 export const LOGIN_REQUEST: 'LOGIN_REQUEST' = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS: 'LOGIN_SUCCESS' = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR: 'LOGIN_ERROR' = 'LOGIN_ERROR';
@@ -29,7 +31,7 @@ export interface ILoginRequestAction {
 
 export interface ILoginSuccessAction {
     readonly type: typeof LOGIN_SUCCESS;
-    readonly payload: any;
+    readonly payload: TUser;
 }
 
 export interface ILoginErrorAction {
@@ -102,7 +104,7 @@ export interface IGetUserRequestAction {
 
 export interface IGetUserSuccessAction {
     readonly type: typeof GET_USER_SUCCESS;
-    readonly payload: any;
+    readonly payload: TUser;
 }
 
 export interface IGetUserErrorAction {
