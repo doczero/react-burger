@@ -12,7 +12,7 @@ import { TBurgerConstructorActions } from "../actions/burgerConstructorActions";
 type TBurgerConstructorState = {
     allIngredients: ReadonlyArray<TIngredient>,
     constructorIngredients: Array<TConstructorIngredient>,
-    constructorBun:  | null,
+    constructorBun: TConstructorIngredient | null,
     orderNumber: number | null,
     isLoading: boolean,
     error: string | null,
@@ -29,7 +29,7 @@ const initialState: TBurgerConstructorState = {
     currentOrder: null,
 }
 
-export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
     
     switch(action.type) {
 

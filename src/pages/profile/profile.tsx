@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from '../../services/types/index';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 
 type FormStateType = {
-    name: string;
-    email: string;
+    name: string | null;
+    email: string | null;
 };
 
 export const ProfilePage: FC = () => {
@@ -47,6 +47,7 @@ export const ProfilePage: FC = () => {
 
     const handleSaveProfile = (e: React.FormEvent) => {
         e.preventDefault();
+        //@ts-ignore
         dispatch(updateUser(values.name, values.email));
     }
 
@@ -90,6 +91,7 @@ export const ProfilePage: FC = () => {
                         type={'text'}
                         placeholder={'Имя'}
                         icon={'EditIcon'}
+                        //@ts-ignore
                         value={values.name}
                         name={'name'}
                         onChange={onChange}
@@ -97,6 +99,7 @@ export const ProfilePage: FC = () => {
                     <Input
                         placeholder={'Логин'}
                         icon={'EditIcon'}
+                        //@ts-ignore
                         value={values.email}
                         name={'email'}
                         onChange={onChange}

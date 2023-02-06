@@ -66,7 +66,7 @@ export const OrdersPage: FC = () => {
             <section className={styles.profileOrdersSection}>
                 <div className={`${styles.profileOrdersContainer} pr-2`}>
                     {orders.map((order: TOrder) => (
-                        <Link to={{ pathname: `${path}/${order._id}`, state: { background: location }}} key={order._id}>
+                        <Link to={{ pathname: `${path}/${order.number}`, state: { background: location }}} key={order._id}>
                             <OrdersFeedItem
                                 createdAt={order.createdAt}
                                 ingredients={order.ingredients}

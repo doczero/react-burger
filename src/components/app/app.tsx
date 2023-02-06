@@ -80,12 +80,12 @@ const App: FC = () => {
             <IngredientDetails />
           </div>
         </Route>
-        <Route path="/feed/:id" exact={true}>
+        <Route path="/feed/:number" exact={true}>
           <div className={styles.ingredientDetailsPageWrapper}>
             <OrderInfo />
           </div>
         </Route>
-        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+        <ProtectedRoute path="/profile/orders/:number" exact={true}>
           <div className={styles.ingredientDetailsPageWrapper}>
             <OrderInfo />
           </div>
@@ -118,7 +118,7 @@ const App: FC = () => {
             </Modal>
           </Route>
 
-          <Route path="/feed/:id" exact={true}>
+          <Route path="/feed/:number" exact={true}>
             <Modal 
               onClose={() => {
                 history.replace({ pathname: "/feed/"});
@@ -128,7 +128,7 @@ const App: FC = () => {
             </Modal>
           </Route>
         
-          <Route path="/profile/orders/:id" exact={true}>
+          <Route path="/profile/orders/:number" exact={true}>
             <Modal 
               onClose={() => {
                 history.replace({ pathname: "/profile/orders"});

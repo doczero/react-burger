@@ -1,7 +1,7 @@
 .orderInfoContainer {
     display: flex;
     flex-direction: column;
-    width: 520px;
+    width: 640px;
     margin: 130px auto;
 }
 
@@ -42,8 +42,12 @@
     left: -24px;
 }
 
-.orderInfoIngredientName {
+.orderInfoIngredientNameBlock {
     flex-grow: 1;
+}
+
+.orderInfoIngredientName {
+    max-width: 320px;
 }
 
 .ordersInfoBottom {

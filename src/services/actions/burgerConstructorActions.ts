@@ -30,17 +30,17 @@ export interface IGetIngredientsErrorAction {
 
 export interface IAddIngredientToConstructorAction {
     readonly type: typeof ADD_INGREDIENT_TO_CONSTRUCTOR;
-    readonly payload: any;
+    readonly payload: TConstructorIngredient;
 }
 
 export interface IAddBunToConstructorAction {
     readonly type: typeof ADD_BUN_TO_CONSTRUCTOR;
-    readonly payload: any;
+    readonly payload: TConstructorIngredient;
 }
 
 export interface IRemoveIngredientFromConstructorAction {
     readonly type: typeof REMOVE_INGREDIENT_FROM_CONSTRUCTOR;
-    readonly payload: any;
+    readonly payload: string;
 }
 
 export interface IClearConstructorAction {

@@ -26,7 +26,12 @@ const BurgerConstructor: FC = () => {
         if(!isAuthenticated) {
             history.replace({ pathname: '/login' })
         } else {
-            const orderIngredients = constructorIngredients.concat(bun);
+            let orderIngredients;
+            if (bun) {
+                orderIngredients = constructorIngredients.concat(bun);
+            } else {
+                orderIngredients = constructorIngredients;
+            }
             dispatch(sendOrder(orderIngredients));
             setModalActive(true);
         }

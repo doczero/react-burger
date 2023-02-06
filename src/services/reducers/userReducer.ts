@@ -28,7 +28,7 @@ const initialState: TUserState = {
     error: '',
 }
 
-export const userReducer = (state = initialState, action: TUserActions ) => {
+export const userReducer = (state = initialState, action: TUserActions ): TUserState => {
 
     switch(action.type) {
 

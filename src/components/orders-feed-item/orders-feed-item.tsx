@@ -74,7 +74,7 @@ const OrdersFeedItem = ({ createdAt, ingredients, name, number, status, updatedA
                 <div className={styles.ordersFeedItemIngredients}>
 
                     {previewIngredients.map((item, index) => (
-                        <div className={styles.ordersFeedIngredientPreview}>
+                        <div className={styles.ordersFeedIngredientPreview} key={number+item._id+index}>
                             <img src={item.image} className={styles.ordersFeedIngredientPreviewImage} alt={item.name} />
                             {index === 5 && 
                                 <div className={`${styles.ordersFeedRestIngredients} text text_type_main-default`}>{`+${restIngredients}`}</div>

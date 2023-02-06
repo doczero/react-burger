@@ -5,35 +5,16 @@ import { useAppDispatch, useAppSelector } from '../../services/types';
 import { getOrderInfo } from '../../services/action-creators/burgerConstructorActionCreators';
 import { TParams, TOrder, TIngredient, TOrderIngredient } from '../../services/types';
 import { useParams } from 'react-router-dom';
-import { WS_BASE_URL } from '../../api/api';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/wsActions';
 
 export const OrderInfo: FC = () => {
 
-    const { id } = useParams<TParams>();
-    const { orders } = useAppSelector(store => store.wsReducer);
-    const displayedOrder = orders.find((order: TOrder) => order._id === id);
-
-    useEffect(() => {
-        if (displayedOrder === undefined) {
-            const wsUrl = WS_BASE_URL + "/orders/all";
-            dispatch({
-                type: WS_CONNECTION_START,
-                payload: wsUrl,
-            })
-        }
-        return () => {
-            dispatch({
-                type: WS_CONNECTION_CLOSED
-            })
-        }
-    }, [])
-
     const dispatch = useAppDispatch();
 
+    const { number } = useParams<TParams>();
+
     useEffect(() => {
-        dispatch(getOrderInfo(displayedOrder.number));
-    }, [dispatch])
+        dispatch(getOrderInfo(String(number)));
+    }, [])
 
     const { currentOrder } = useAppSelector(store => store.burgerConstructorReducer);
     const { allIngredients } = useAppSelector(store => store.burgerConstructorReducer);
@@ -78,11 +59,15 @@ export const OrderInfo: FC = () => {
             <div className={`${styles.orderInfoIngredientsContainer} mb-10 pr-6`}>
 
             {orderIngredients.map(item => (
-                <div className={styles.orderInfoIngredient}>
+                <div className={styles.orderInfoIngredient} key={item._id}>
                     <div className={styles.orderInfoIngredientPreview}>
                         <img src={item.image} className={styles.orderInfoIngredientPreviewImage} alt={item.name} />
                     </div>
-                    <div className={`${styles.orderInfoIngredientName} text text_type_main-default`}>{item.name}</div>
+                    <div className={`${styles.orderInfoIngredientNameBlock} text text_type_main-default`}>
+                        <p className={styles.orderInfoIngredientName}>
+                            {item.name}
+                        </p>
+                    </div>
                     <div className={styles.orderInfoIngredientTotal}>
                         <div className="text text_type_digits-default">{item.quantityInOrder} x {item.price}</div>
                         <CurrencyIcon type="primary" />

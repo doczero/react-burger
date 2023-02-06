@@ -76,5 +76,6 @@ export type TOrder = {
 }
 
 export type TParams = {
-    id: string;
+    number?: string;
+    id?: string;
 }
