@@ -37,6 +37,11 @@ export type TConstructorIngredient = TIngredient &
     constructorId: string;
 };
 
+export type TOrderIngredient = TIngredient &
+{
+    quantityInOrder: number;
+};
+
 export type TActions = 
     | TBurgerConstructorActions
     | TUserActions

@@ -7,15 +7,15 @@ const OrdersDashboard: FC = () => {
 
     const { orders, totalOrders, totalOrdersToday } = useAppSelector(store => store.wsReducer);
 
-    const ordersReady = orders.filter((order: TOrder) => order.status === "done").slice(0, 10);
-    const ordersInProgress = orders.filter((order: TOrder) => order.status === "pending").slice(0, 10);
+    const ordersReady = orders.filter((order: TOrder) => order.status === "done").slice(0, 20);
+    const ordersInProgress = orders.filter((order: TOrder) => order.status === "pending").slice(0, 20);
 
     return (
         <div className={styles.ordersDashboardContainer}>
             <div className={styles.ordersDashboardStatuses}>
                 <div className={styles.ordersDashboardStatus}>
                     <h2 className="text text_type_main-medium pb-6">Готовы:</h2>
-                    <div  className={`${styles.ordersDashboardStatusReady} text text_type_digits-default`}>
+                    <div className={`${styles.ordersDashboardStatusReady} text text_type_digits-default`}>
                         <div className={styles.orderDashboardNumbers}>
                             {ordersReady.map((item: TOrder) => (
                                 <div key={item._id}>{item.number}</div>

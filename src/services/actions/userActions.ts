@@ -29,7 +29,7 @@ export interface ILoginRequestAction {
 
 export interface ILoginSuccessAction {
     readonly type: typeof LOGIN_SUCCESS;
-    readonly payload: any; // ПОПРАВИТЬ
+    readonly payload: any;
 }
 
 export interface ILoginErrorAction {
@@ -102,7 +102,7 @@ export interface IGetUserRequestAction {
 
 export interface IGetUserSuccessAction {
     readonly type: typeof GET_USER_SUCCESS;
-    readonly payload: any; // ПОПРАВИТЬ
+    readonly payload: any;
 }
 
 export interface IGetUserErrorAction {

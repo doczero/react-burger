@@ -80,17 +80,25 @@ const App: FC = () => {
             <IngredientDetails />
           </div>
         </Route>
+        <Route path="/feed/:id" exact={true}>
+          <div className={styles.ingredientDetailsPageWrapper}>
+            <OrderInfo />
+          </div>
+        </Route>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+          <div className={styles.ingredientDetailsPageWrapper}>
+            <OrderInfo />
+          </div>
+        </ProtectedRoute>
         <Route path="/" exact={true}>
           <MainPage />
         </Route>
         <Route path="/feed" exact={true}>
           <FeedPage />
         </Route>
-
         <Route path="/orderdetails" exact={true}>
           <OrderInfo />
         </Route>
-
         <Route path="*">
           <NotFound404 />
         </Route>

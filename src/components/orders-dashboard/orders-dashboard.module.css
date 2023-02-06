@@ -21,4 +21,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex-wrap: wrap;
+    max-height: 313px;
 }
