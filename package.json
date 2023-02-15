@@ -31,7 +31,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy-script": "npm run build && scp -r ./build/* doczero@158.160.40.169:/home/doczero/stellar-frontend",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +55,8 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "cypress": "^12.5.1"
-  }
+    "cypress": "^12.5.1",
+    "gh-pages": "^5.0.0"
+  },
+  "homepage": "./"
 }
