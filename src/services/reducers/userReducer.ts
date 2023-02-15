@@ -19,7 +19,7 @@ type TUserState = {
     error: string | null,
 }
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
     userName: null,
     userLogin: null,
     isAuthenticated: false,

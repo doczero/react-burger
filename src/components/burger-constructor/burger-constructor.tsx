@@ -74,9 +74,9 @@ const BurgerConstructor: FC = () => {
 
     return(
         <>
-            <div ref={dropTarget} className={`${styles.constructorContainer} mt-25 mb-8`}>
+            <div ref={dropTarget} className={`${styles.constructorContainer} mt-25 mb-8`} data-test="constructorContainer">
                 {bun &&
-                    <div className="pr-4">
+                    <div className="pr-4" data-test="constructorBunTop">
                         <ConstructorElement
                             type="top"
                             isLocked={true}
@@ -87,7 +87,7 @@ const BurgerConstructor: FC = () => {
                     </div>
                 }
 
-                <div className={`${styles.burgerConstructorInnerItems} pr-2`}>
+                <div className={`${styles.burgerConstructorInnerItems} pr-2`} data-test="constructorInnerItems">
 
                     {constructorIngredients
                     .map((item: TConstructorIngredient, index: number) => (
@@ -104,7 +104,7 @@ const BurgerConstructor: FC = () => {
                 </div>
 
                 {bun &&
-                    <div className="pr-4">
+                    <div className="pr-4" data-test="constructorBunBottom">
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
@@ -129,6 +129,7 @@ const BurgerConstructor: FC = () => {
                     size="large"
                     onClick={handleMakeOrderClick}
                     disabled={(constructorIngredients.length === 0 && !bun) ? true : false}
+                    data-test="submitOrderButton"
                 >
                     Оформить заказ
                 </Button>

@@ -19,7 +19,7 @@ type TBurgerConstructorState = {
     currentOrder: TOrder | null,  
 }
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
     allIngredients: [],
     constructorIngredients: [],
     constructorBun: null,
