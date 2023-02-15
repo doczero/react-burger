@@ -5,7 +5,7 @@ describe("Отправка заказа", () => {
         const email = "karvraburcar@kpjprd.rs";
         const password = "beograd";
         cy.viewport(1400, 1000);
-        cy.visit("http://localhost:3000/login");
+        cy.visit("/login");
         cy.get("[data-testid=email_input]").type(`${email}`);
         cy.get("[data-testid=password_input]").type(`${password}{enter}`);
     });

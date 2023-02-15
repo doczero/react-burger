@@ -2,7 +2,7 @@ import { selectors } from "../support/selectors";
 
 describe("Drag'n'Drop", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:3000");
+        cy.visit("/");
         cy.viewport(1400, 1000);
     });
 
