@@ -30,11 +30,13 @@ export const LoginPage: FC = () => {
                             name={'email'}
                             value={values.email}
                             onChange={handleChange}
+                            data-testid="email_input"
                         />
                         <PasswordInput
                             name={'password'}
                             value={values.password}
                             onChange={handleChange}
+                            data-testid="password_input"
                         />
                         <Button htmlType="submit" type="primary" size="large">
                             Войти

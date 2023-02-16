@@ -21,7 +21,7 @@ export const OrderInfo: FC = () => {
 
     let orderIngredients: TOrderIngredient[] = [];
     currentOrder?.ingredients.forEach((currentItem) => {
-        let currentIngredient = allIngredients.find((item: TIngredient) => item._id === currentItem);
+        let currentIngredient = allIngredients.find((item) => item._id === currentItem);
         if (currentIngredient) {
             // проверим, нет ли в итоговом массиве элемента с таким id
             if (orderIngredients.find(item => item._id === currentIngredient?._id) === undefined) {

@@ -8,17 +8,18 @@ import {
 
 
 import type { TWSActions } from "../actions/wsActions";
+import { TOrder } from "../types";
 
 type TWSState = {
     wsConnected: boolean;
-    orders: [],
+    orders: TOrder[] | [],
     userOrders: [],
     totalOrders: number | null,
     totalOrdersToday: number | null,
     error?: Event;
 }
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
     wsConnected: false,
     orders: [],
     userOrders: [],
@@ -26,7 +27,7 @@ const initialState: TWSState = {
     totalOrdersToday: null,
 }
 
-export const wsReducer = (state = initialState, action: TWSActions) => {
+export const wsReducer = (state = initialState, action: TWSActions): TWSState => {
 
     switch (action.type) {
         
@@ -55,9 +56,9 @@ export const wsReducer = (state = initialState, action: TWSActions) => {
             return {
                 ...state,
                 error: undefined,
-                orders: JSON.parse(action.payload).orders,
-                totalOrders: JSON.parse(action.payload).total,
-                totalOrdersToday: JSON.parse(action.payload).totalToday,
+                orders: action.payload.orders,
+                totalOrders: action.payload.total,
+                totalOrdersToday: action.payload.totalToday,
             };
 
         default:
