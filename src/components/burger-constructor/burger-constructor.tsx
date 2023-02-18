@@ -28,7 +28,7 @@ const BurgerConstructor: FC = () => {
         } else {
             let orderIngredients;
             if (bun) {
-                orderIngredients = constructorIngredients.concat(bun);
+                orderIngredients = constructorIngredients.concat(bun).concat(bun);
             } else {
                 orderIngredients = constructorIngredients;
             }
